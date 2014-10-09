@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal" 
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_cabinet_light_1"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="280dp"
+            android:textSize="50sp"
+            android:text="酒柜灯1" />
+
+        <Button
+            android:id="@+id/btn_cabinet_light_2"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="280dp"
+            android:textSize="50sp"
+            android:text="酒柜灯2" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal" 
+        android:gravity="center">
+        
+        <Button
+            android:id="@+id/btn_atmos_light_1"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="155dp"
+            android:textSize="50sp"
+            android:text="氛围灯1" />
+
+        <Button
+            android:id="@+id/btn_atmos_light_2"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:textSize="50sp"
+            android:text="氛围灯2" />
+        
+        <Button
+            android:id="@+id/btn_atmos_light_3"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="155dp"
+            android:textSize="50sp"
+            android:text="氛围灯3" />
+        
+    </LinearLayout>
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <Button
+            android:id="@+id/btn_read_light_1"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="20dp"
+            android:textSize="50sp"
+            android:text="阅读灯1" />
+
+        <Button
+            android:id="@+id/btn_read_light_2"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:textSize="50sp"
+            android:text="阅读灯2" />
+
+        <Button
+            android:id="@+id/btn_read_light_3"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="50sp"
+            android:text="阅读灯3" />
+                
+        <Button
+            android:id="@+id/btn_read_light_4"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="50sp"
+            android:text="阅读灯4" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

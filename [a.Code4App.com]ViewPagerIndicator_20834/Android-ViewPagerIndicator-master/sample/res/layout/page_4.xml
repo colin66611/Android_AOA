@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+        android:gravity="top">
+
+        <Button
+            android:id="@+id/btn_dvd_display"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:text="播放" />
+
+        <Button
+            android:id="@+id/btn_dvd_pause"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:text="暂停" />
+
+        <Button
+            android:id="@+id/btn_dvd_stop"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:text="停止" />
+        
+        <Button
+            android:id="@+id/btn_dvd_repeat"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:text="重复" />
+        
+        <Button
+            android:id="@+id/btn_dvd_random"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:text="随机" />
+        
+        <Button
+            android:id="@+id/btn_dvd_main"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:text="主菜单" />
+        
+    </LinearLayout>
+
+    <!-- this part is the middle part of the layout -->
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+        android:gravity="top"
+        android:background="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txt_dir_no"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="Dir No" />
+            <TextView
+                android:id="@+id/txt_disc_type"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="300dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="Disc Type" />
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txt_track_no"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="Track No" />
+            <TextView
+                android:id="@+id/txt_file_name"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="75dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="File Name" />
+            <TextView
+                android:id="@+id/txt_mode"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="75dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="Mode" />
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txt_ID3"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="225dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="ID3" />
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txt_play_time"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="225dp"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:text="Play Time" />
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal" >
+
+            <Button
+            android:id="@+id/btn_last_song"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:textSize="30sp"
+            android:text="上曲" />
+            <Button
+            android:id="@+id/btn_rewind"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="25dp"
+            android:textSize="30sp"
+            android:text="快倒" />
+            <Button
+            android:id="@+id/btn_forward"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="25dp"
+            android:textSize="30sp"
+            android:text="快进" />
+            <Button
+            android:id="@+id/btn_next_song"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:textSize="30sp"
+            android:layout_marginRight="20dp"
+            android:text="下曲" />
+            
+            
+        </LinearLayout>
+   
+    </LinearLayout>
+    
+    <!-- this part is for the right part -->
+
+	<LinearLayout 
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="top">
+	   
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="300dp"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="20dp"
+	        android:gravity="top">
+	        
+	        <LinearLayout 
+		        android:layout_width="200dp"
+		        android:layout_height="match_parent"
+		        android:orientation="vertical"
+		        android:gravity="top">
+	            
+	            <Button
+		            android:id="@+id/btn_sound"
+		            android:layout_width="150dp"
+		            android:layout_height="80dp"
+		            android:layout_marginBottom="30dp"
+		            android:layout_marginLeft="20dp"
+		            android:textSize="30sp"
+		            android:text="声音" />
+	            
+	            <Button
+		            android:id="@+id/btn_subtitle"
+		            android:layout_width="150dp"
+		            android:layout_height="80dp"
+		            android:layout_marginLeft="20dp"
+		            android:textSize="30sp"
+		            android:text="字幕" />
+	            
+	        </LinearLayout>
+	        
+	        <Button
+	            android:id="@+id/btn_eject"
+	            android:layout_width="150dp"
+	            android:layout_height="80dp"
+	            android:layout_marginLeft="30dp"
+	            android:textSize="30sp"
+	            android:text="弹碟" />
+	
+	    </LinearLayout>
+	    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="300dp"
+	        android:orientation="vertical"
+	        android:layout_marginTop="10dp">
+	        
+	        <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="100dp"
+		        android:orientation="horizontal"
+		        android:layout_marginTop="10dp"
+		        android:gravity="center">
+	            
+	            <Button
+		            android:id="@+id/btn_up"
+		            android:layout_width="120dp"
+		            android:layout_height="80dp"
+		            android:textSize="30sp"
+		            android:text="上" />
+	        
+	        </LinearLayout>
+	        
+	        <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="100dp"
+		        android:orientation="horizontal"
+		        android:gravity="center">
+	            
+	            <Button
+		            android:id="@+id/btn_left"
+		            android:layout_width="120dp"
+		            android:layout_height="80dp"
+		            android:layout_marginRight="10dp"
+		            android:textSize="30sp"
+		            android:text="左" />
+	            <Button
+		            android:id="@+id/btn_yes"
+		            android:layout_width="120dp"
+		            android:layout_height="80dp"
+		            android:textSize="30sp"
+		            android:text="确定" />	            
+	            <Button
+		            android:id="@+id/btn_right"
+		            android:layout_width="120dp"
+		            android:layout_height="80dp"
+		            android:layout_marginLeft="10dp"
+		            android:textSize="30sp"
+		            android:text="右" />
+	        
+	        </LinearLayout>
+	        
+	        <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="100dp"
+		        android:orientation="horizontal"
+		        android:gravity="center">
+	            
+	            <Button
+		            android:id="@+id/btn_down"
+		            android:layout_width="120dp"
+		            android:layout_height="80dp"
+		            android:textSize="30sp"
+		            android:text="下" />
+	        
+	        </LinearLayout>
+	
+	    </LinearLayout>
+	    
+	</LinearLayout>
+
+
+
+</LinearLayout>

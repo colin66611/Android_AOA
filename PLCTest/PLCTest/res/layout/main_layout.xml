@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/labelTvUp"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="电视升" />
+	
+	        <Button
+	            android:id="@+id/bnTvUpOn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="升" />
+	
+	        <Button
+	            android:id="@+id/bnTvUpOff"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="停" />
+	
+	        <TextView
+	            android:id="@+id/statusTvUp"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="停" />
+	
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/LabelTvDn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="电视降  " />
+	
+	        <Button
+	            android:id="@+id/bnTvDnOn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="降" />
+	
+	        <Button
+	            android:id="@+id/bnTvDnOff"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="停" />
+	
+	        <TextView
+	            android:id="@+id/statusTvDn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="停" />
+	
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/LabelTvPwr"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="电视电源" />
+	
+	        <Button
+	            android:id="@+id/bnTvPwrOn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="开" />
+	
+	        <Button
+	            android:id="@+id/bnTvPwrOff"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="关" />
+	
+	        <TextView
+	            android:id="@+id/statusTvPwr"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="关" />
+	
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	
+	        <TextView
+	            android:id="@+id/LabelGlassPwr"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="玻璃开关" />
+	
+	        <Button
+	            android:id="@+id/bnGlassPwrOn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="开" />
+	
+	        <Button
+	            android:id="@+id/bnGlassPwrOff"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="关" />
+	
+	        <TextView
+	            android:id="@+id/statusGlassPwr"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="关" />
+	
+	    </LinearLayout>
+	 
+	</LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" 
+        android:orientation="vertical" >
+	    
+        <TextView
+            	android:id="@+id/logWindow"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"/>
+	    
+  	</LinearLayout>     
+  	
+</LinearLayout>

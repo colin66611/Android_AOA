@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">PLCTest</string>
+    <string name="switch_1_name">电视升</string>
+    <string name="switch_1_open">开</string>
+    <string name="switch_1_close">关</string>
+
+</resources>

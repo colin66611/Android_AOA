@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.viewpagerindicator.sample"
+    android:versionCode="65"
+    android:versionName="2.4.1">
+    
+    <supports-screens
+        android:smallScreens="true" 
+        android:normalScreens="true" 
+        android:largeScreens="true" 
+        android:anyDensity="true"
+    />
+
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="16" />
+
+    <application
+        android:label="MyMotorHome"
+        android:icon="@drawable/icon"
+        >
+
+<!--        
+		<activity
+            android:name=".ListSamples"
+            android:label="ViewPager Indicator">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+ --> 
+
+
+        <!-- TAB INDICATOR -->
+           <!-- android:label="Tabs/With Icons" -->
+      <activity
+          android:name=".SampleTabsWithIcons"
+          android:theme="@style/StyledIndicators"
+          android:screenOrientation="landscape">
+        <intent-filter>
+          <action android:name="android.intent.action.MAIN" />
+          <category android:name="android.intent.category.LAUNCHER" />
+          <!-- <category android:name="com.jakewharton.android.viewpagerindicator.sample.SAMPLE" /> -->
+        </intent-filter>
+        
+        <intent-filter>
+            <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"/>
+        </intent-filter>
+            
+        <meta-data 
+            android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+            android:resource="@xml/accessory_filter">
+        </meta-data>
+      </activity>
+
+
+
+    </application>
+</manifest>
