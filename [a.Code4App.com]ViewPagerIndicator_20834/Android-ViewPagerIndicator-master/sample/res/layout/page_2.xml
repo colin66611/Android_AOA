@@ -10,21 +10,23 @@
         android:orientation="horizontal" 
         android:gravity="center">
 
-        <Button
-            android:id="@+id/btn_cabinet_light_1"
+        <ToggleButton
+            android:id="@+id/btn_cabinet_light"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginRight="280dp"
             android:textSize="50sp"
-            android:text="酒柜灯1" />
+            android:textOn="酒柜灯"
+            android:textOff="酒柜灯" />
 
-        <Button
-            android:id="@+id/btn_cabinet_light_2"
+        <ToggleButton
+            android:id="@+id/btn_top_light"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginLeft="280dp"
             android:textSize="50sp"
-            android:text="酒柜灯2" />
+            android:textOn="顶灯"
+            android:textOff="顶灯" />
         
     </LinearLayout>
 
@@ -34,28 +36,31 @@
         android:orientation="horizontal" 
         android:gravity="center">
         
-        <Button
-            android:id="@+id/btn_atmos_light_1"
+        <ToggleButton
+            android:id="@+id/btn_mood_light_1"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginRight="155dp"
             android:textSize="50sp"
-            android:text="氛围灯1" />
+            android:textOn="氛围灯1"
+            android:textOff="氛围灯1" />
 
-        <Button
-            android:id="@+id/btn_atmos_light_2"
+        <ToggleButton
+            android:id="@+id/btn_mood_light_2"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:textSize="50sp"
-            android:text="氛围灯2" />
+            android:textOn="氛围灯2"
+            android:textOff="氛围灯2" />
         
-        <Button
-            android:id="@+id/btn_atmos_light_3"
+        <ToggleButton
+            android:id="@+id/btn_mood_light_3"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginLeft="155dp"
             android:textSize="50sp"
-            android:text="氛围灯3" />
+            android:textOn="氛围灯3"
+            android:textOff="氛围灯3" />
         
     </LinearLayout>
 
@@ -65,37 +70,41 @@
         android:orientation="horizontal"
         android:gravity="center">
         
-        <Button
+        <ToggleButton
             android:id="@+id/btn_read_light_1"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginRight="20dp"
             android:textSize="50sp"
-            android:text="阅读灯1" />
+            android:textOn="阅读灯1"
+            android:textOff="阅读灯1" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/btn_read_light_2"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginRight="10dp"
             android:textSize="50sp"
-            android:text="阅读灯2" />
+            android:textOn="阅读灯2"
+            android:textOff="阅读灯2" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/btn_read_light_3"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:textSize="50sp"
-            android:text="阅读灯3" />
+            android:textOn="阅读灯3"
+            android:textOff="阅读灯3" />
                 
-        <Button
+        <ToggleButton
             android:id="@+id/btn_read_light_4"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginLeft="20dp"
             android:textSize="50sp"
-            android:text="阅读灯4" />
+            android:textOn="阅读灯4"
+            android:textOff="阅读灯4" />
     </LinearLayout>
 
 

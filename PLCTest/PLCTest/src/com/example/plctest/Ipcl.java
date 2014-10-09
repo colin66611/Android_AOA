@@ -41,7 +41,7 @@ public class Ipcl extends Thread{
 	public final byte SS_AUDIO = 0x23;
 
 
-	Ipcl(Context ctx, Handler h)
+	public Ipcl(Context ctx, Handler h)
 	{
 		mTargetHandler = h;
 		m_rxPool = new IPCL_RX_MSG_t(IPCL_RX_POOL_SIZE);

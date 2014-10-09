@@ -60,7 +60,7 @@
         android:gravity="center">
         
          <Button
-            android:id="@+id/btn_curtain_1_up"
+            android:id="@+id/btn_sun_roof_on"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="60dp"
@@ -68,7 +68,7 @@
             android:text="开" />
 
         <Button
-            android:id="@+id/btn_curtain_1_down"
+            android:id="@+id/btn_sun_roof_off"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -76,7 +76,7 @@
             android:text="关" />
          
         <Button
-            android:id="@+id/btn_curtain_2_up"
+            android:id="@+id/btn_pc_on"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -86,7 +86,7 @@
 
 
         <Button
-            android:id="@+id/btn_curtain_2_down"
+            android:id="@+id/btn_pc_off"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
@@ -95,7 +95,7 @@
             android:text="关" />
         
         <Button
-            android:id="@+id/btn_curtain_3_up"
+            android:id="@+id/btn_DTV_on"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
@@ -104,7 +104,7 @@
             android:text="开"/>
 
          <Button
-            android:id="@+id/btn_curtain_3_down"
+            android:id="@+id/btn_DTV_off"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
@@ -113,7 +113,7 @@
             android:text="关" />
         
         <Button
-            android:id="@+id/btn_curtain_4_up"
+            android:id="@+id/btn_DVD_on"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -121,7 +121,7 @@
             android:text="开" />
 
         <Button
-            android:id="@+id/btn_curtain_4_down"
+            android:id="@+id/btn_DVD_off"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"

@@ -19,8 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.plctest.Ipcl;
-import com.example.plctest.PLCActivity;
-import com.example.plctest.PLCActivity.PlcAgent;
+
 
 public final class TestFragment extends Fragment {
     private static final String KEY_CONTENT = "TestFragment:Content";
@@ -50,7 +49,7 @@ public final class TestFragment extends Fragment {
     private String mContent = "???";
     private static int Index = -1;
     
-    private PLCActivity plc_server;
+    //private PLCActivity plc_server;
     
     
     /*new plc agent*/
@@ -166,7 +165,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				mIpclServer.mPlc.setGlassPwr(true);
+				mIpclServer.mPlc.setGlassUp();
 			}
 		});
     	
@@ -216,12 +215,12 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				mIpclServer.mPlc.setGlassPwr(false);
+				mIpclServer.mPlc.setGlassDown();
 			}
 		});
     	
     }
-    
+
     public void fragmentPage_1(View view) {
     	Button btnCurtain1Up = (Button) view.findViewById(R.id.btn_curtain_1_up);
     	Button btnCurtain1Down = (Button) view.findViewById(R.id.btn_curtain_1_down);
@@ -237,7 +236,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain1Up.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.openShade_1();
+				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -246,7 +246,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain1Down.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.closeShade_1();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -255,7 +256,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain2Up.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.openShade_2();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -264,7 +266,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain2Down.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.closeShade_2();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -273,7 +276,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain3Up.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.openShade_3();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -282,7 +286,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain3Down.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.closeShade_3();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -291,7 +296,8 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain4Up.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.openShade_4();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
@@ -300,175 +306,257 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCurtain4Down.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.closeShade_4();
+				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
     	
     }
     
     public void fragmentPage_2(View view) {
-    	Button btnCabinetLight1 = (Button) view.findViewById(R.id.btn_cabinet_light_1);
-    	Button btnCabinetLight2 = (Button) view.findViewById(R.id.btn_cabinet_light_2);
-    	Button btnAtmosLight1 = (Button) view.findViewById(R.id.btn_atmos_light_1);
-    	Button btnAtmosLight2 = (Button) view.findViewById(R.id.btn_atmos_light_2);
-    	Button btnAtmosLight3 = (Button) view.findViewById(R.id.btn_atmos_light_3);
-    	Button btnReadLight1 = (Button) view.findViewById(R.id.btn_read_light_1);
-    	Button btnReadLight2 = (Button) view.findViewById(R.id.btn_read_light_2);
-    	Button btnReadLight3 = (Button) view.findViewById(R.id.btn_read_light_3);
-    	Button btnReadLight4 = (Button) view.findViewById(R.id.btn_read_light_4);
+    	ToggleButton btnCabinetLight = (ToggleButton) view.findViewById(R.id.btn_cabinet_light);
+    	ToggleButton btnTopLight = (ToggleButton) view.findViewById(R.id.btn_top_light);
+    	ToggleButton btnMoodLight1 = (ToggleButton) view.findViewById(R.id.btn_mood_light_1);
+    	ToggleButton btnMoodLight2 = (ToggleButton) view.findViewById(R.id.btn_mood_light_2);
+    	ToggleButton btnMoodLight3 = (ToggleButton) view.findViewById(R.id.btn_mood_light_3);
+    	ToggleButton btnReadLight1 = (ToggleButton) view.findViewById(R.id.btn_read_light_1);
+    	ToggleButton btnReadLight2 = (ToggleButton) view.findViewById(R.id.btn_read_light_2);
+    	ToggleButton btnReadLight3 = (ToggleButton) view.findViewById(R.id.btn_read_light_3);
+    	ToggleButton btnReadLight4 = (ToggleButton) view.findViewById(R.id.btn_read_light_4);
     	
-    	btnCabinetLight1.setOnClickListener(new View.OnClickListener() {
+    	btnCabinetLight.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCabinetLight1.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnCabinetLight.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setBarLight(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnCabinetLight.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setBarLight(false);
+				}
 			}
 		});
     	
-    	btnCabinetLight2.setOnClickListener(new View.OnClickListener() {
+    	btnTopLight.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnCabinetLight2.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnTopLight.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTopLight(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnTopLight.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTopLight(false);
+				}
 			}
 		});
     	
-    	btnAtmosLight1.setOnClickListener(new View.OnClickListener() {
+    	btnMoodLight1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnAtmosLight1.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnMoodLight1.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setMoodLight_1(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnMoodLight1.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setMoodLight_1(false);
+				}
 			}
 		});
     	
-    	btnAtmosLight2.setOnClickListener(new View.OnClickListener() {
+    	btnMoodLight2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnAtmosLight2.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnMoodLight2.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setMoodLight_2(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnMoodLight2.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setMoodLight_2(false);
+				}
 			}
 		});
     	
-    	btnAtmosLight3.setOnClickListener(new View.OnClickListener() {
+    	btnMoodLight3.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnAtmosLight3.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnMoodLight3.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setMoodLight_3(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnMoodLight3.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setMoodLight_3(false);
+				}
 			}
 		});
     	
-    	btnReadLight1.setOnClickListener(new View.OnClickListener() {
+    	btnReadLight1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnReadLight1.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnReadLight1.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_1(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnReadLight1.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_1(false);
+				}
 			}
 		});
     	
-    	btnReadLight2.setOnClickListener(new View.OnClickListener() {
+    	btnReadLight2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnReadLight2.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnReadLight2.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_2(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnReadLight2.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_2(false);
+				}
 			}
 		});
     	
-    	btnReadLight3.setOnClickListener(new View.OnClickListener() {
+    	btnReadLight3.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnReadLight3.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnReadLight3.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_3(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnReadLight3.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_3(false);
+				}
 			}
 		});
     	
-    	btnReadLight4.setOnClickListener(new View.OnClickListener() {
+    	btnReadLight4.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnReadLight4.", Toast.LENGTH_SHORT).show();
+				if(isChecked) {
+					Toast.makeText(getActivity(), "open btnReadLight4.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_4(true);
+				}
+				else {
+					Toast.makeText(getActivity(), "close btnReadLight4.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setReadLight_4(false);
+				}
 			}
 		});
     	
     }
-    
+
     public void fragmentPage_3(View view) {
-    	Button btnLanguage = (Button) view.findViewById(R.id.btn_language);
-    	Button btnTvUp = (Button) view.findViewById(R.id.btn_TV_up);
-    	Button btnGlassUp = (Button) view.findViewById(R.id.btn_glass_up);
-    	Button btnTvSwtich = (Button) view.findViewById(R.id.btn_TV_swtich);
-    	Button btnGlassChange = (Button) view.findViewById(R.id.btn_glass_change);
-    	Button btnTvDown = (Button) view.findViewById(R.id.btn_TV_down);
-    	Button btnGlassDown = (Button) view.findViewById(R.id.btn_glass_down);
+    	Button btnSunroofOn = (Button) view.findViewById(R.id.btn_sun_roof_on);
+    	Button btnSunroofOff = (Button) view.findViewById(R.id.btn_sun_roof_off);
+    	Button btnPCOn = (Button) view.findViewById(R.id.btn_pc_on);
+    	Button btnPCOff = (Button) view.findViewById(R.id.btn_pc_off);
+    	Button btnDTVOn = (Button) view.findViewById(R.id.btn_DTV_on);
+    	Button btnDTVOff = (Button) view.findViewById(R.id.btn_DTV_off);
+    	Button btnDVDOn = (Button) view.findViewById(R.id.btn_DVD_on);
+    	Button btnDVDOff = (Button) view.findViewById(R.id.btn_DVD_off);
     	
-    	btnLanguage.setOnClickListener(new View.OnClickListener() {
+    	btnSunroofOn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain1Up.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.openSunroof();
 			}
 		});
     	
-    	btnTvUp.setOnClickListener(new View.OnClickListener() {
+    	btnSunroofOff.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain1Down.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.closeSunroof();
 			}
 		});
     	
-    	btnGlassUp.setOnClickListener(new View.OnClickListener() {
+    	btnPCOn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain2Up.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.setPCPwr(true);
 			}
 		});
     	
-    	btnTvSwtich.setOnClickListener(new View.OnClickListener() {
+    	btnPCOff.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain2Down.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mPlc.setPCPwr(false);
 			}
 		});
     	
-    	btnGlassChange.setOnClickListener(new View.OnClickListener() {
+    	btnDTVOn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain3Up.", Toast.LENGTH_SHORT).show();
+				// TO DO
 			}
 		});
     	
-    	btnTvDown.setOnClickListener(new View.OnClickListener() {
+    	btnDTVOff.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain3Down.", Toast.LENGTH_SHORT).show();
+				//TO DO
 			}
 		});
     	
-    	btnGlassDown.setOnClickListener(new View.OnClickListener() {
+    	btnDVDOn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnCurtain4Up.", Toast.LENGTH_SHORT).show();
+				//TO DO
+			}
+		});
+    	
+    	btnDVDOff.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnCurtain4Down.", Toast.LENGTH_SHORT).show();
+				//TO DO
 			}
 		});
     	
@@ -489,7 +577,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnDvdHome.", Toast.LENGTH_SHORT).show();
-				plc_server.onHomePressed();
+				
 			}
 		});
     	
@@ -499,7 +587,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnLastSong.", Toast.LENGTH_SHORT).show();
-				plc_server.onBackPressed();
+				
 			}
 		});
     	

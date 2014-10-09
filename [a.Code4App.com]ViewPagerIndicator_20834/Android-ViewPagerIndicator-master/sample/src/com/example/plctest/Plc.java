@@ -295,6 +295,16 @@ public
 		return (getDevState(DEV_READLIGHT_3_PWR));		
 	}
 	
+	public boolean setReadLight_4(boolean bOn)
+	{
+		return (setDevState(DEV_READLIGHT_4_PWR, bOn));		
+	}
+	
+	public boolean getReadLight_4(boolean bOn)
+	{
+		return (getDevState(DEV_READLIGHT_4_PWR));		
+	}
+	
 	/* ´°Á±¿ØÖÆ*/
 	public boolean openShade_1()
 	{
