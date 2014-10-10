@@ -10,47 +10,39 @@
         android:orientation="horizontal" 
         android:gravity="center">
 
-        <ImageView
+        <ImageSwitcher
             android:id="@+id/img_curtain_1"
-            android:src="@drawable/curtain"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginRight="50dp"
-            android:text="电动窗帘1" />
+            android:layout_marginRight="50dp" />
 
-        <ImageView
+        <ImageSwitcher
             android:id="@+id/img_curtain_2"
-            android:src="@drawable/curtain"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginRight="25dp"
-            android:text="电动窗帘2" />
+            android:layout_marginRight="25dp" />
         
-        <ImageView
+        <ImageSwitcher
             android:id="@+id/img_curtain_3"
-            android:src="@drawable/curtain"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="25dp"
-            
-            android:text="电动窗帘3" />
+            />
 
-        <ImageView
+        <ImageSwitcher
             android:id="@+id/img_curtain_4"
-            android:src="@drawable/curtain"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="50dp"
-            
-            android:text="电动窗帘4" />        
+            />        
     </LinearLayout>
 
     <LinearLayout

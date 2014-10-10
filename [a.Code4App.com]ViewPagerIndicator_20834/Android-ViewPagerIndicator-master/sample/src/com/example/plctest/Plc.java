@@ -311,9 +311,19 @@ public
 		return (setDevState(DEV_SHADE_1_OPEN, true));	
 	}
 	
+	public boolean getShadeOpenState_1()
+	{
+		return (getDevState(DEV_SHADE_1_OPEN));
+	}
+	
 	public boolean closeShade_1()
 	{
 		return (setDevState(DEV_SHADE_1_CLOSE, true));	
+	}
+	
+	public boolean getShadeCloseState_1()
+	{
+		return (getDevState(DEV_SHADE_1_OPEN));
 	}
 	
 	public boolean openShade_2()
@@ -321,9 +331,19 @@ public
 		return (setDevState(DEV_SHADE_2_OPEN, true));	
 	}
 	
+	public boolean getShadeOpenState_2()
+	{
+		return (getDevState(DEV_SHADE_2_OPEN));
+	}
+	
 	public boolean closeShade_2()
 	{
 		return (setDevState(DEV_SHADE_2_CLOSE, true));					
+	}
+	
+	public boolean getShadeCloseState_2()
+	{
+		return (getDevState(DEV_SHADE_2_OPEN));
 	}
 	
 	public boolean openShade_3()
@@ -331,18 +351,39 @@ public
 		return (setDevState(DEV_SHADE_3_OPEN, true));		
 	}
 	
+	public boolean getShadeOpenState_3()
+	{
+		return (getDevState(DEV_SHADE_3_OPEN));
+	}
+	
 	public boolean closeShade_3()
 	{
 		return (setDevState(DEV_SHADE_3_CLOSE, true));			
 	}
+	
+	public boolean getShadeCloseState_3()
+	{
+		return (getDevState(DEV_SHADE_3_OPEN));
+	}
+	
 	public boolean openShade_4()
 	{
 		return (setDevState(DEV_SHADE_4_OPEN, true));		
 	}
 	
+	public boolean getShadeOpenState_4()
+	{
+		return (getDevState(DEV_SHADE_4_OPEN));
+	}
+	
 	public boolean closeShade_4()
 	{
 		return (setDevState(DEV_SHADE_4_CLOSE, true));	
+	}
+	
+	public boolean getShadeCloseState_4()
+	{
+		return (getDevState(DEV_SHADE_4_OPEN));
 	}
 	
 

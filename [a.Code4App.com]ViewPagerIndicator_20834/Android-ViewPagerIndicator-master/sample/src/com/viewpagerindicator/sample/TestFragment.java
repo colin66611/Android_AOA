@@ -12,17 +12,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageSwitcher;
 import android.widget.ToggleButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher.ViewFactory;
 
 import com.example.plctest.Ipcl;
 
 
 public final class TestFragment extends Fragment {
     private static final String KEY_CONTENT = "TestFragment:Content";
+    
+    static final int imgCurtainOpen = R.drawable.curtain_open;
+    static final int imgCurtainClose = R.drawable.curtain_close;
 /*
     public static TestFragment newInstance(String content) {
         TestFragment fragment = new TestFragment();
@@ -231,12 +236,53 @@ public final class TestFragment extends Fragment {
     	Button btnCurtain4Up = (Button) view.findViewById(R.id.btn_curtain_4_up);
     	Button btnCurtain4Down = (Button) view.findViewById(R.id.btn_curtain_4_down);
     	
+    	final ImageSwitcher curtain_1 = (ImageSwitcher) view.findViewById(R.id.img_curtain_1);
+    	final ImageSwitcher curtain_2 = (ImageSwitcher) view.findViewById(R.id.img_curtain_2);
+    	final ImageSwitcher curtain_3 = (ImageSwitcher) view.findViewById(R.id.img_curtain_3);
+    	final ImageSwitcher curtain_4 = (ImageSwitcher) view.findViewById(R.id.img_curtain_4);
+    	
+    	curtain_1.setFactory((ViewFactory) view);
+    	curtain_2.setFactory((ViewFactory) view);
+    	curtain_3.setFactory((ViewFactory) view);
+    	curtain_4.setFactory((ViewFactory) view);
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_1()) {
+    		curtain_1.setImageResource(imgCurtainOpen);  
+    	}
+    	else {
+    		curtain_1.setImageResource(imgCurtainClose);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_2()) {
+    		curtain_2.setImageResource(imgCurtainOpen);  
+    	}
+    	else {
+    		curtain_2.setImageResource(imgCurtainClose);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_3()) {
+    		curtain_3.setImageResource(imgCurtainOpen);  
+    	}
+    	else {
+    		curtain_3.setImageResource(imgCurtainClose);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_4()) {
+    		curtain_4.setImageResource(imgCurtainOpen);  
+    	}
+    	else {
+    		curtain_4.setImageResource(imgCurtainClose);  
+    	}
+    	
     	btnCurtain1Up.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.openShade_1();
+				if(!mIpclServer.mPlc.getShadeOpenState_1()) {
+					mIpclServer.mPlc.openShade_1();
+					curtain_1.setImageResource(imgCurtainOpen);
+				}
 				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -246,7 +292,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.closeShade_1();
+				if(!mIpclServer.mPlc.getShadeCloseState_1()) {
+					mIpclServer.mPlc.closeShade_1();
+					curtain_1.setImageResource(imgCurtainClose);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -256,7 +305,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.openShade_2();
+				if(!mIpclServer.mPlc.getShadeOpenState_2()) {
+					mIpclServer.mPlc.openShade_2();
+					curtain_2.setImageResource(imgCurtainOpen);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -266,7 +318,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.closeShade_2();
+				if(!mIpclServer.mPlc.getShadeCloseState_2()) {
+					mIpclServer.mPlc.closeShade_2();
+					curtain_2.setImageResource(imgCurtainClose);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -276,7 +331,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.openShade_3();
+				if(!mIpclServer.mPlc.getShadeOpenState_3()) {
+					mIpclServer.mPlc.openShade_3();
+					curtain_3.setImageResource(imgCurtainOpen);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -286,7 +344,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.closeShade_3();
+				if(!mIpclServer.mPlc.getShadeCloseState_3()) {
+					mIpclServer.mPlc.closeShade_3();
+					curtain_3.setImageResource(imgCurtainClose);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -296,7 +357,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.openShade_4();
+				if(!mIpclServer.mPlc.getShadeOpenState_4()) {
+					mIpclServer.mPlc.openShade_4();
+					curtain_4.setImageResource(imgCurtainOpen);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -306,7 +370,10 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mIpclServer.mPlc.closeShade_4();
+				if(!mIpclServer.mPlc.getShadeCloseState_4()) {
+					mIpclServer.mPlc.closeShade_4();
+					curtain_4.setImageResource(imgCurtainClose);
+				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
 		});
