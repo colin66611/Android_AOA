@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.ToggleButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -28,6 +29,15 @@ public final class TestFragment extends Fragment {
     
     static final int imgCurtainOpen = R.drawable.curtain_open;
     static final int imgCurtainClose = R.drawable.curtain_close;
+    static final int imgSunroofOpen = R.drawable.sunroof_open;
+    static final int imgSunroofClose = R.drawable.sunroof_close;
+    static final int imgPCOn = R.drawable.pc_on;
+    static final int imgPCOff = R.drawable.pc_off;
+    static final int imgDTVOn = R.drawable.dtv_on;
+    static final int imgDTVOff = R.drawable.dtv_off;
+    static final int imgDVDOn = R.drawable.dvd_on;
+    static final int imgDVDOff = R.drawable.dvd_off;
+    
 /*
     public static TestFragment newInstance(String content) {
         TestFragment fragment = new TestFragment();
@@ -136,6 +146,7 @@ public final class TestFragment extends Fragment {
         outState.putString(KEY_CONTENT, mContent);
     }
     
+    
     public void fragmentPage_0(View view) {
     	Button btnLanguage = (Button) view.findViewById(R.id.btn_language);
     	Button btnTvUp = (Button) view.findViewById(R.id.btn_TV_up);
@@ -236,42 +247,82 @@ public final class TestFragment extends Fragment {
     	Button btnCurtain4Up = (Button) view.findViewById(R.id.btn_curtain_4_up);
     	Button btnCurtain4Down = (Button) view.findViewById(R.id.btn_curtain_4_down);
     	
-    	final ImageSwitcher curtain_1 = (ImageSwitcher) view.findViewById(R.id.img_curtain_1);
-    	final ImageSwitcher curtain_2 = (ImageSwitcher) view.findViewById(R.id.img_curtain_2);
-    	final ImageSwitcher curtain_3 = (ImageSwitcher) view.findViewById(R.id.img_curtain_3);
-    	final ImageSwitcher curtain_4 = (ImageSwitcher) view.findViewById(R.id.img_curtain_4);
+    	final ImageSwitcher curtain_switcher_1 = (ImageSwitcher) view.findViewById(R.id.img_curtain_1);
+    	final ImageSwitcher curtain_switcher_2 = (ImageSwitcher) view.findViewById(R.id.img_curtain_2);
+    	final ImageSwitcher curtain_switcher_3 = (ImageSwitcher) view.findViewById(R.id.img_curtain_3);
+    	final ImageSwitcher curtain_switcher_4 = (ImageSwitcher) view.findViewById(R.id.img_curtain_4);
     	
-    	curtain_1.setFactory((ViewFactory) view);
-    	curtain_2.setFactory((ViewFactory) view);
-    	curtain_3.setFactory((ViewFactory) view);
-    	curtain_4.setFactory((ViewFactory) view);
+    	class ViewFactory_1 implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView curtain_image_1 = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, curtain_switcher_1, false);
+    			return curtain_image_1;
+    		}
+        }
+    	
+    	class ViewFactory_2 implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView curtain_image_2 = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, curtain_switcher_2, false);
+    			return curtain_image_2;
+    		}
+        }
+    	
+    	class ViewFactory_3 implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView curtain_image_3 = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, curtain_switcher_3, false);
+    			return curtain_image_3;
+    		}
+        }
+    	
+    	class ViewFactory_4 implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView curtain_image_4 = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, curtain_switcher_4, false);
+    			return curtain_image_4;
+    		}
+        }
+    	
+    	curtain_switcher_1.setFactory(new ViewFactory_1());
+    	curtain_switcher_2.setFactory(new ViewFactory_2());
+    	curtain_switcher_3.setFactory(new ViewFactory_3());
+    	curtain_switcher_4.setFactory(new ViewFactory_4());
     	
     	if(mIpclServer.mPlc.getShadeOpenState_1()) {
-    		curtain_1.setImageResource(imgCurtainOpen);  
+    		curtain_switcher_1.setImageResource(imgCurtainOpen);  
     	}
     	else {
-    		curtain_1.setImageResource(imgCurtainClose);  
+    		curtain_switcher_1.setImageResource(imgCurtainClose);  
     	}
     	
     	if(mIpclServer.mPlc.getShadeOpenState_2()) {
-    		curtain_2.setImageResource(imgCurtainOpen);  
+    		curtain_switcher_2.setImageResource(imgCurtainOpen);  
     	}
     	else {
-    		curtain_2.setImageResource(imgCurtainClose);  
+    		curtain_switcher_2.setImageResource(imgCurtainClose);  
     	}
     	
     	if(mIpclServer.mPlc.getShadeOpenState_3()) {
-    		curtain_3.setImageResource(imgCurtainOpen);  
+    		curtain_switcher_3.setImageResource(imgCurtainOpen);  
     	}
     	else {
-    		curtain_3.setImageResource(imgCurtainClose);  
+    		curtain_switcher_3.setImageResource(imgCurtainClose);  
     	}
     	
     	if(mIpclServer.mPlc.getShadeOpenState_4()) {
-    		curtain_4.setImageResource(imgCurtainOpen);  
+    		curtain_switcher_4.setImageResource(imgCurtainOpen);  
     	}
     	else {
-    		curtain_4.setImageResource(imgCurtainClose);  
+    		curtain_switcher_4.setImageResource(imgCurtainClose);  
     	}
     	
     	btnCurtain1Up.setOnClickListener(new View.OnClickListener() {
@@ -281,7 +332,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeOpenState_1()) {
 					mIpclServer.mPlc.openShade_1();
-					curtain_1.setImageResource(imgCurtainOpen);
+					curtain_switcher_1.setImageResource(imgCurtainOpen);
 				}
 				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
 			}
@@ -294,7 +345,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeCloseState_1()) {
 					mIpclServer.mPlc.closeShade_1();
-					curtain_1.setImageResource(imgCurtainClose);
+					curtain_switcher_1.setImageResource(imgCurtainClose);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -307,7 +358,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeOpenState_2()) {
 					mIpclServer.mPlc.openShade_2();
-					curtain_2.setImageResource(imgCurtainOpen);
+					curtain_switcher_2.setImageResource(imgCurtainOpen);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -320,7 +371,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeCloseState_2()) {
 					mIpclServer.mPlc.closeShade_2();
-					curtain_2.setImageResource(imgCurtainClose);
+					curtain_switcher_2.setImageResource(imgCurtainClose);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -333,7 +384,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeOpenState_3()) {
 					mIpclServer.mPlc.openShade_3();
-					curtain_3.setImageResource(imgCurtainOpen);
+					curtain_switcher_3.setImageResource(imgCurtainOpen);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -346,7 +397,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeCloseState_3()) {
 					mIpclServer.mPlc.closeShade_3();
-					curtain_3.setImageResource(imgCurtainClose);
+					curtain_switcher_3.setImageResource(imgCurtainClose);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -359,7 +410,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeOpenState_4()) {
 					mIpclServer.mPlc.openShade_4();
-					curtain_4.setImageResource(imgCurtainOpen);
+					curtain_switcher_4.setImageResource(imgCurtainOpen);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -372,7 +423,7 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if(!mIpclServer.mPlc.getShadeCloseState_4()) {
 					mIpclServer.mPlc.closeShade_4();
-					curtain_4.setImageResource(imgCurtainClose);
+					curtain_switcher_4.setImageResource(imgCurtainClose);
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -546,6 +597,90 @@ public final class TestFragment extends Fragment {
     	Button btnDTVOff = (Button) view.findViewById(R.id.btn_DTV_off);
     	Button btnDVDOn = (Button) view.findViewById(R.id.btn_DVD_on);
     	Button btnDVDOff = (Button) view.findViewById(R.id.btn_DVD_off);
+    	
+    	final ImageSwitcher Sunroof_switcher 	= (ImageSwitcher) view.findViewById(R.id.img_sunroof);
+    	final ImageSwitcher PC_switcher 		= (ImageSwitcher) view.findViewById(R.id.img_PC);
+    	final ImageSwitcher DTV_switcher 		= (ImageSwitcher) view.findViewById(R.id.img_DTV);
+    	final ImageSwitcher DVD_switcher 		= (ImageSwitcher) view.findViewById(R.id.img_DVD);
+    	
+    	class ViewFactorySunroof implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView sunroof_image = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, Sunroof_switcher, false);
+    			return sunroof_image;
+    		}
+        }
+    	
+    	class ViewFactoryPC implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView pc_image = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, PC_switcher, false);
+    			return pc_image;
+    		}
+        }
+    	
+    	class ViewFactoryDTV implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView dtv_image = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, DTV_switcher, false);
+    			return dtv_image;
+    		}
+        }
+    	
+    	class ViewFactoryDVD implements ViewFactory {
+
+    		@Override
+    		public View makeView() {
+    			// TODO Auto-generated method stub
+    			ImageView dvd_image = (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.switch_view, DVD_switcher, false);
+    			return dvd_image;
+    		}
+        }
+    	
+    	Sunroof_switcher.setFactory(new ViewFactorySunroof());
+    	PC_switcher.setFactory(new ViewFactoryPC());
+    	DTV_switcher.setFactory(new ViewFactoryDTV());
+    	DVD_switcher.setFactory(new ViewFactoryDVD());
+    	
+    	Sunroof_switcher.setImageResource(imgCurtainOpen); 
+    	PC_switcher.setImageResource(imgPCOn);  
+    	DTV_switcher.setImageResource(imgDTVOn); 
+    	DVD_switcher.setImageResource(imgDVDOn); 
+    	/*
+    	if(mIpclServer.mPlc.getShadeOpenState_1()) {
+    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
+    	}
+    	else {
+    		Sunroof_switcher.setImageResource(imgSunroofClose);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_2()) {
+    		PC_switcher.setImageResource(imgPCOn);  
+    	}
+    	else {
+    		PC_switcher.setImageResource(imgPCOff);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_3()) {
+    		DTV_switcher.setImageResource(imgDTVOn);  
+    	}
+    	else {
+    		DTV_switcher.setImageResource(imgDTVOff);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getShadeOpenState_4()) {
+    		DVD_switcher.setImageResource(imgDVDOn);  
+    	}
+    	else {
+    		DVD_switcher.setImageResource(imgDVDOff);  
+    	}
+    	*/
     	
     	btnSunroofOn.setOnClickListener(new View.OnClickListener() {
 			

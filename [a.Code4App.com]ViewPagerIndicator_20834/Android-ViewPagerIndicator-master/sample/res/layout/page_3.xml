@@ -10,9 +10,8 @@
         android:orientation="horizontal" 
         android:gravity="center">
 
-        <ImageView
-            android:id="@+id/img_curtain_1"
-            android:src="@drawable/curtain_open"
+        <ImageSwitcher
+            android:id="@+id/img_sunroof"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
@@ -20,9 +19,8 @@
             android:layout_marginRight="50dp"
             android:text="电动窗帘1" />
 
-        <ImageView
-            android:id="@+id/img_curtain_2"
-            android:src="@drawable/curtain_open"
+        <ImageSwitcher
+            android:id="@+id/img_PC"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
@@ -30,9 +28,8 @@
             android:layout_marginRight="25dp"
             android:text="电动窗帘2" />
         
-        <ImageView
-            android:id="@+id/img_curtain_3"
-            android:src="@drawable/curtain_open"
+        <ImageSwitcher
+            android:id="@+id/img_DTV"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
@@ -41,9 +38,8 @@
             
             android:text="电动窗帘3" />
 
-        <ImageView
-            android:id="@+id/img_curtain_4"
-            android:src="@drawable/curtain_open"
+        <ImageSwitcher
+            android:id="@+id/img_DVD"
             android:scaleType="fitXY"
             android:layout_width="250dp"
             android:layout_height="250dp"
