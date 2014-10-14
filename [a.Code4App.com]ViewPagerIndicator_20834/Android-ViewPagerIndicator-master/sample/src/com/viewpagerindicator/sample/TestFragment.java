@@ -64,8 +64,6 @@ public final class TestFragment extends Fragment {
     private String mContent = "???";
     private static int Index = -1;
     
-    //private PLCActivity plc_server;
-    
     
     /*new plc agent*/
     private PlcAgent plcAgent;
@@ -82,8 +80,9 @@ public final class TestFragment extends Fragment {
         
     	plcAgent = new PlcAgent(); 
     	/*new and start ipcl thread*/
-		mIpclServer = new Ipcl(getActivity(), handler);
-		mIpclServer.start();
+		//mIpclServer = new Ipcl(getActivity(), handler);
+		//mIpclServer.start();
+    	mIpclServer = Ipcl.getInstance();
     }
 
     @Override
@@ -118,12 +117,12 @@ public final class TestFragment extends Fragment {
     		break;
     	case 3:
     		fragmentView = inflater.inflate(R.layout.page_3, container, false);
-    		//fragmentPage_3(fragmentView);
+    		fragmentPage_3(fragmentView);
     		Log.d("colin", "page 4.");
     		break;
     	case 4:
     		fragmentView = inflater.inflate(R.layout.page_4, container, false);
-    		//fragmentPage_4(fragmentView);
+    		fragmentPage_4(fragmentView);
     		Log.d("colin", "page 5.");
     		break;    		
     	default:
@@ -138,6 +137,13 @@ public final class TestFragment extends Fragment {
 
         return fragmentView;
     }
+//    
+//    @Override
+//    public void onResume(){
+//		super.onResume();	
+//		mIpclServer.resumeIpcl();   	
+//    }
+    
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -652,35 +658,35 @@ public final class TestFragment extends Fragment {
     	PC_switcher.setImageResource(imgPCOn);  
     	DTV_switcher.setImageResource(imgDTVOn); 
     	DVD_switcher.setImageResource(imgDVDOn); 
-    	/*
-    	if(mIpclServer.mPlc.getShadeOpenState_1()) {
-    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
-    	}
-    	else {
-    		Sunroof_switcher.setImageResource(imgSunroofClose);  
-    	}
     	
-    	if(mIpclServer.mPlc.getShadeOpenState_2()) {
-    		PC_switcher.setImageResource(imgPCOn);  
-    	}
-    	else {
-    		PC_switcher.setImageResource(imgPCOff);  
-    	}
+//    	if(mIpclServer.mPlc.getShadeOpenState_1()) {
+//    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
+//    	}
+//    	else {
+//    		Sunroof_switcher.setImageResource(imgSunroofClose);  
+//    	}
+//    	
+//    	if(mIpclServer.mPlc.getShadeOpenState_2()) {
+//    		PC_switcher.setImageResource(imgPCOn);  
+//    	}
+//    	else {
+//    		PC_switcher.setImageResource(imgPCOff);  
+//    	}
+//    	
+//    	if(mIpclServer.mPlc.getShadeOpenState_3()) {
+//    		DTV_switcher.setImageResource(imgDTVOn);  
+//    	}
+//    	else {
+//    		DTV_switcher.setImageResource(imgDTVOff);  
+//    	}
+//    	
+//    	if(mIpclServer.mPlc.getShadeOpenState_4()) {
+//    		DVD_switcher.setImageResource(imgDVDOn);  
+//    	}
+//    	else {
+//    		DVD_switcher.setImageResource(imgDVDOff);  
+//    	}
     	
-    	if(mIpclServer.mPlc.getShadeOpenState_3()) {
-    		DTV_switcher.setImageResource(imgDTVOn);  
-    	}
-    	else {
-    		DTV_switcher.setImageResource(imgDTVOff);  
-    	}
-    	
-    	if(mIpclServer.mPlc.getShadeOpenState_4()) {
-    		DVD_switcher.setImageResource(imgDVDOn);  
-    	}
-    	else {
-    		DVD_switcher.setImageResource(imgDVDOff);  
-    	}
-    	*/
     	
     	btnSunroofOn.setOnClickListener(new View.OnClickListener() {
 			
@@ -688,6 +694,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain1Up.", Toast.LENGTH_SHORT).show();
+				Sunroof_switcher.setImageResource(imgSunroofOpen); 
 				mIpclServer.mPlc.openSunroof();
 			}
 		});
@@ -698,6 +705,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain1Down.", Toast.LENGTH_SHORT).show();
+				Sunroof_switcher.setImageResource(imgSunroofClose);  
 				mIpclServer.mPlc.closeSunroof();
 			}
 		});
@@ -708,6 +716,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain2Up.", Toast.LENGTH_SHORT).show();
+				PC_switcher.setImageResource(imgPCOn);  
 				mIpclServer.mPlc.setPCPwr(true);
 			}
 		});
@@ -718,6 +727,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain2Down.", Toast.LENGTH_SHORT).show();
+				PC_switcher.setImageResource(imgPCOff);  
 				mIpclServer.mPlc.setPCPwr(false);
 			}
 		});
@@ -728,6 +738,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain3Up.", Toast.LENGTH_SHORT).show();
+				DTV_switcher.setImageResource(imgDTVOn);  
 				// TO DO
 			}
 		});
@@ -738,6 +749,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain3Down.", Toast.LENGTH_SHORT).show();
+				DTV_switcher.setImageResource(imgDTVOff); 
 				//TO DO
 			}
 		});
@@ -748,6 +760,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain4Up.", Toast.LENGTH_SHORT).show();
+				DVD_switcher.setImageResource(imgDVDOn);  
 				//TO DO
 			}
 		});
@@ -758,6 +771,7 @@ public final class TestFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain4Down.", Toast.LENGTH_SHORT).show();
+				DVD_switcher.setImageResource(imgDVDOff);  
 				//TO DO
 			}
 		});
@@ -766,40 +780,33 @@ public final class TestFragment extends Fragment {
 
     public void fragmentPage_4(View view) {
     	Button btnDvdHome = (Button) view.findViewById(R.id.btn_dvd_main);
-    	Button btnLastSong = (Button) view.findViewById(R.id.btn_last_song);
+    	Button btnEject = (Button) view.findViewById(R.id.btn_eject);
     	Button btnDvdPlay = (Button) view.findViewById(R.id.btn_dvd_display);
     	Button btnDvdPause = (Button) view.findViewById(R.id.btn_dvd_pause);
-    	Button btnGlassChange = (Button) view.findViewById(R.id.btn_glass_change);
-    	Button btnTvDown = (Button) view.findViewById(R.id.btn_TV_down);
-    	Button btnGlassDown = (Button) view.findViewById(R.id.btn_glass_down);
-    	
-    	btnDvdHome.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnDvdHome.", Toast.LENGTH_SHORT).show();
-				
-			}
-		});
-    	
-    	btnLastSong.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnLastSong.", Toast.LENGTH_SHORT).show();
-				
-			}
-		});
+    	Button btnFF = (Button) view.findViewById(R.id.btn_forward);
+    	Button btnFB = (Button) view.findViewById(R.id.btn_rewind);
+    	Button btnNext = (Button) view.findViewById(R.id.btn_next_song);
+    	Button btnPrev = (Button) view.findViewById(R.id.btn_last_song);
+    	Button btnRepeat = (Button) view.findViewById(R.id.btn_dvd_repeat);
+    	Button btnMix = (Button) view.findViewById(R.id.btn_dvd_random);
+    	Button btnDVDUp = (Button) view.findViewById(R.id.btn_up);
+    	Button btnDVDLeft = (Button) view.findViewById(R.id.btn_left);
+    	Button btnDVDRight = (Button) view.findViewById(R.id.btn_right);
+    	Button btnDVDDown = (Button) view.findViewById(R.id.btn_down);
+    	Button btnEnter = (Button) view.findViewById(R.id.btn_yes);
+    	Button btnDVDAudio = (Button) view.findViewById(R.id.btn_sound);
+    	Button btnSubtitle = (Button) view.findViewById(R.id.btn_subtitle);
+
+
     	
     	btnDvdPlay.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				//plc_server.onResume();
+				Toast.makeText(getActivity(), "btnDvdPlay.", Toast.LENGTH_SHORT).show();
+				Log.v("colin", "btnDvdPlay");
+				mIpclServer.mDvd.setDVDPlay();
 			}
 		});
     	
@@ -808,37 +815,162 @@ public final class TestFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				//plc_server.onPause();
+				Toast.makeText(getActivity(), "btnDvdPause.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDPause();
 			}
 		});
     	
-    	btnGlassChange.setOnClickListener(new View.OnClickListener() {
+    	btnEject.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnEject.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDEject();
 			}
 		});
     	
-    	btnTvDown.setOnClickListener(new View.OnClickListener() {
+    	btnFF.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnFF.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDFF();
 			}
 		});
     	
-    	btnGlassDown.setOnClickListener(new View.OnClickListener() {
+    	btnFB.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "btnFB.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDFB();
 			}
 		});
+    	
+    	btnNext.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnNext.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDNext();
+			}
+		});
+    	
+    	btnPrev.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnPrev.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDPrev();
+			}
+		});
+    	
+    	btnRepeat.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnRepeat.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDRpt();
+			}
+		});
+    	
+    	btnMix.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnMix.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDMix();
+			}
+		});
+    	
+    	btnDVDUp.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDVDUp.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDUp();
+			}
+		});
+    	
+    	btnDVDLeft.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDVDLeft.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDLeft();
+			}
+		});
+    	
+    	btnDVDRight.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDVDRight.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDRight();
+			}
+		});
+    	
+    	btnDVDDown.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDVDDown.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDDn();
+			}
+		});
+    	
+    	btnEnter.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnEnter.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDEnter();
+			}
+		});
+    	
+    	btnDvdHome.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDvdHome.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDMenu();
+			}
+		});
+    	
+    	btnDVDAudio.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDVDAudio.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDAudio();
+			}
+		});
+    	
+    	btnSubtitle.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnSubtitle.", Toast.LENGTH_SHORT).show();
+				mIpclServer.mDvd.setDVDSubTitle();
+			}
+		});
+    	
+
     	
     }
     

@@ -32,7 +32,11 @@ public class Ipcl extends Thread{
 		}
 	};
 	
+	
 	private IPCL_RX_MSG_t m_rxPool;
+	
+	public Plc mPlc;
+	public Dvd mDvd;
 	
 	/* Define Subsystem group channel */
 	public final byte SS_SYSTEM = 0x11;	
@@ -48,14 +52,22 @@ public class Ipcl extends Thread{
 		
 		/* Subsystem proxy */
 		mPlc = new Plc(this);
+		mDvd = new Dvd(this);
 		
 		uartAgent = new FT311UARTInterface(ctx, 9600, (byte)8, (byte)1, (byte)0, (byte)(0));
 		
+		mIpclServer = this;
 	}
 	
 
-	public Plc mPlc;
+
 	
+	private static Ipcl mIpclServer;
+	
+	public static Ipcl getInstance()
+	{
+		return mIpclServer;
+	}
 
 	/**
 	 * 
