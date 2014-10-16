@@ -37,6 +37,7 @@ public class Ipcl extends Thread{
 	
 	public Plc mPlc;
 	public Dvd mDvd;
+	public Audio mAudio;
 	
 	/* Define Subsystem group channel */
 	public final byte SS_SYSTEM = 0x11;	
@@ -53,6 +54,7 @@ public class Ipcl extends Thread{
 		/* Subsystem proxy */
 		mPlc = new Plc(this);
 		mDvd = new Dvd(this);
+		mAudio = new Audio();
 		
 		uartAgent = new FT311UARTInterface(ctx, 9600, (byte)8, (byte)1, (byte)0, (byte)(0));
 		

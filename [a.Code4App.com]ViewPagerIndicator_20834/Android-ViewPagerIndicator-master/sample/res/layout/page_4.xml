@@ -220,7 +220,7 @@
 	   
 	    <LinearLayout 
 	        android:layout_width="match_parent"
-	        android:layout_height="300dp"
+	        android:layout_height="320dp"
 	        android:orientation="horizontal"
 	        android:layout_marginTop="20dp"
 	        android:gravity="top">
@@ -250,13 +250,46 @@
 	            
 	        </LinearLayout>
 	        
-	        <Button
+	        <LinearLayout 
+		        android:layout_width="200dp"
+		        android:layout_height="match_parent"
+		        android:orientation="vertical"
+		        android:gravity="top">
+	            
+	            <Button
 	            android:id="@+id/btn_eject"
 	            android:layout_width="150dp"
 	            android:layout_height="80dp"
 	            android:layout_marginLeft="30dp"
 	            android:textSize="30sp"
 	            android:text="弹碟" />
+	        
+	        <Button
+	            android:id="@+id/btn_USB"
+	            android:layout_width="150dp"
+	            android:layout_height="80dp"
+	            android:layout_marginLeft="30dp"
+	            android:textSize="30sp"
+	            android:text="USB" />
+	        
+	        <Button
+	            android:id="@+id/btn_SD"
+	            android:layout_width="150dp"
+	            android:layout_height="80dp"
+	            android:layout_marginLeft="30dp"
+	            android:textSize="30sp"
+	            android:text="SD" />
+	        
+	        <Button
+	            android:id="@+id/btn_DVD"
+	            android:layout_width="150dp"
+	            android:layout_height="80dp"
+	            android:layout_marginLeft="30dp"
+	            android:textSize="30sp"
+	            android:text="DVD" />
+	            
+	        </LinearLayout>
+	       
 	
 	    </LinearLayout>
 	    

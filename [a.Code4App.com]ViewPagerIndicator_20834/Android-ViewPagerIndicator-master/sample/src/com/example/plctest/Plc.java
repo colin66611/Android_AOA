@@ -63,7 +63,7 @@ public class Plc {
 			{
 				mDevStatus = mDevStatus & (~bitMask);	
 			}
-			return (setBatchState(mDevStatus));	
+			return true;
 		}
 		else
 		{
@@ -160,17 +160,24 @@ public
 	/* TV up */
 	public boolean setTVUp()
 	{
-		return (setDevState(DEV_TV_UP, true));	
+		setDevState(DEV_TV_UP, true);
+		setDevState(DEV_TV_DOWN, false);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean setTVDown()
 	{
-		return (setDevState(DEV_TV_DOWN, true));
+		setDevState(DEV_TV_UP, false);
+		setDevState(DEV_TV_DOWN, true);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean setTVPwr(boolean bOn)
 	{
-		return (setDevState(DEV_TV_PWR, bOn));		
+		setDevState(DEV_TV_PWR, bOn);
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getTVPwr()
@@ -180,7 +187,8 @@ public
 		
 	public boolean setGlassPwr(boolean bOn)
 	{
-		return (setDevState(DEV_GLASS_PWR, bOn));				
+		setDevState(DEV_GLASS_PWR, bOn);
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getGlassPwr()
@@ -190,64 +198,79 @@ public
 	
 	public boolean setGlassUp()
 	{
-		return (setDevState(DEV_GLASS_UP, true));						
+		setDevState(DEV_GLASS_UP, true);
+		setDevState(DEV_GLASS_DOWN, false);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean setGlassDown()
 	{
-		return (setDevState(DEV_GLASS_DOWN, true));							
+		setDevState(DEV_GLASS_UP, false);
+		setDevState(DEV_GLASS_DOWN, true);
+		
+		return (setBatchState(mDevStatus));		
 	}
 	
 	public boolean openSunroof()
 	{
-		return (setDevState(DEV_SUNROOF_OPEN, true));							
+		setDevState(DEV_SUNROOF_OPEN, true);
+		setDevState(DEV_SUNROOF_CLOSE, false);	
+		
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean closeSunroof()
 	{
-		return (setDevState(DEV_SUNROOF_CLOSE, true));									
+		setDevState(DEV_SUNROOF_OPEN, false);		
+		setDevState(DEV_SUNROOF_CLOSE, true);
+		return (setBatchState(mDevStatus));		
 	}
 	
 	public boolean setPCPwr(boolean bOn)
 	{
-		return (setDevState(DEV_PC_PWR, bOn));		
+		setDevState(DEV_PC_PWR, bOn);	
+		return (setBatchState(mDevStatus));			
 	}
 	
 	/* µÆ¹â¿ØÖÆ */
 	public boolean setMoodLight_1(boolean bOn)
 	{
-		return (setDevState(DEV_MOODLIGHT_1_PWR, bOn));		
-		
+		setDevState(DEV_MOODLIGHT_1_PWR, bOn);		
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getModdLight_1()
 	{
-		return (getDevState(DEV_MOODLIGHT_1_PWR));
+		return (getDevState(DEV_MOODLIGHT_1_PWR));		
 	}
 	
 	public boolean setMoodLight_2(boolean bOn)
 	{
-		return (setDevState(DEV_MOODLIGHT_2_PWR, bOn));		
+		setDevState(DEV_MOODLIGHT_2_PWR, bOn);	
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getModdLight_2()
 	{
-		return (getDevState(DEV_MOODLIGHT_2_PWR));
+		return (getDevState(DEV_MOODLIGHT_2_PWR));		
 	}
 	
 	public boolean setMoodLight_3(boolean bOn)
 	{
-		return (setDevState(DEV_MOODLIGHT_3_PWR, bOn));		
+		setDevState(DEV_MOODLIGHT_3_PWR, bOn);	
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getModdLight_3()
 	{
-		return (getDevState(DEV_MOODLIGHT_3_PWR));
+		return (getDevState(DEV_MOODLIGHT_3_PWR));		
 	}
 	
 	public boolean setBarLight(boolean bOn)
 	{
-		return (setDevState(DEV_BARLIGHT_PWR, bOn));		
+		setDevState(DEV_BARLIGHT_PWR, bOn);
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getBarLight()
@@ -257,7 +280,8 @@ public
 	
 	public boolean setTopLight(boolean bOn)
 	{
-		return (setDevState(DEV_TOPLIGHT_PWR, bOn));		
+		setDevState(DEV_TOPLIGHT_PWR, bOn);
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getTopLight()
@@ -267,7 +291,8 @@ public
 	
 	public boolean setReadLight_1(boolean bOn)
 	{
-		return (setDevState(DEV_READLIGHT_1_PWR, bOn));		
+		setDevState(DEV_READLIGHT_1_PWR, bOn);
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getReadLight_1(boolean bOn)
@@ -277,7 +302,8 @@ public
 	
 	public boolean setReadLight_2(boolean bOn)
 	{
-		return (setDevState(DEV_READLIGHT_2_PWR, bOn));		
+		setDevState(DEV_READLIGHT_2_PWR, bOn);
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getReadLight_2(boolean bOn)
@@ -287,7 +313,8 @@ public
 	
 	public boolean setReadLight_3(boolean bOn)
 	{
-		return (setDevState(DEV_READLIGHT_3_PWR, bOn));		
+		setDevState(DEV_READLIGHT_3_PWR, bOn);
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getReadLight_3(boolean bOn)
@@ -297,7 +324,8 @@ public
 	
 	public boolean setReadLight_4(boolean bOn)
 	{
-		return (setDevState(DEV_READLIGHT_4_PWR, bOn));		
+		setDevState(DEV_READLIGHT_4_PWR, bOn);	
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getReadLight_4(boolean bOn)
@@ -308,7 +336,10 @@ public
 	/* ´°Á±¿ØÖÆ*/
 	public boolean openShade_1()
 	{
-		return (setDevState(DEV_SHADE_1_OPEN, true));	
+		setDevState(DEV_SHADE_1_OPEN, true);
+		setDevState(DEV_SHADE_1_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getShadeOpenState_1()
@@ -318,7 +349,10 @@ public
 	
 	public boolean closeShade_1()
 	{
-		return (setDevState(DEV_SHADE_1_CLOSE, true));	
+		setDevState(DEV_SHADE_1_OPEN, false);		
+		setDevState(DEV_SHADE_1_CLOSE, true);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getShadeCloseState_1()
@@ -328,7 +362,10 @@ public
 	
 	public boolean openShade_2()
 	{
-		return (setDevState(DEV_SHADE_2_OPEN, true));	
+		setDevState(DEV_SHADE_2_OPEN, true);
+		setDevState(DEV_SHADE_2_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getShadeOpenState_2()
@@ -338,7 +375,10 @@ public
 	
 	public boolean closeShade_2()
 	{
-		return (setDevState(DEV_SHADE_2_CLOSE, true));					
+		setDevState(DEV_SHADE_2_OPEN, false);		
+		setDevState(DEV_SHADE_2_CLOSE, true);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getShadeCloseState_2()
@@ -348,7 +388,10 @@ public
 	
 	public boolean openShade_3()
 	{
-		return (setDevState(DEV_SHADE_3_OPEN, true));		
+		setDevState(DEV_SHADE_3_OPEN, true);
+		setDevState(DEV_SHADE_3_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getShadeOpenState_3()
@@ -358,7 +401,10 @@ public
 	
 	public boolean closeShade_3()
 	{
-		return (setDevState(DEV_SHADE_3_CLOSE, true));			
+		setDevState(DEV_SHADE_3_OPEN, false);		
+		setDevState(DEV_SHADE_3_CLOSE, true);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getShadeCloseState_3()
@@ -368,7 +414,10 @@ public
 	
 	public boolean openShade_4()
 	{
-		return (setDevState(DEV_SHADE_4_OPEN, true));		
+		setDevState(DEV_SHADE_4_OPEN, true);
+		setDevState(DEV_SHADE_4_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getShadeOpenState_4()
@@ -378,7 +427,10 @@ public
 	
 	public boolean closeShade_4()
 	{
-		return (setDevState(DEV_SHADE_4_CLOSE, true));	
+		setDevState(DEV_SHADE_4_OPEN, false);		
+		setDevState(DEV_SHADE_4_CLOSE, true);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean getShadeCloseState_4()
@@ -395,15 +447,32 @@ public
 			switch (msg[0])
 			{
 			case PLC_API_RESP_BATCH_STATE:
-				int devState;
-				devState = (int)msg[1] << 24;
-				devState &= (int)msg[2] << 16;
-				devState &= (int)msg[3] << 8;
-				devState &= (int)msg[4];
-				
-				mDevStatus = devState;
+				if (msg.length == 5)
+				{
+					int devState;
+					devState = (int)msg[1] << 24;
+					devState &= (int)msg[2] << 16;
+					devState &= (int)msg[3] << 8;
+					devState &= (int)msg[4];
+					
+					mDevStatus = devState;
+				}
 				break;
 				
+			case PLC_API_RESP_DEV_STATE:
+				if (msg.length == 3)
+				{
+					if (msg[2] == 0x01)
+					{
+						setDevState(msg[1], true);
+					}
+					else
+					{
+						setDevState(msg[1], false);
+					}
+				}
+				break;
+
 			default:
 				
 				break;

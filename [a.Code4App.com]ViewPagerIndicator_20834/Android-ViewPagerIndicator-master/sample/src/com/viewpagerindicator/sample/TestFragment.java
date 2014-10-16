@@ -22,6 +22,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher.ViewFactory;
 
 import com.example.plctest.Ipcl;
+import com.example.plctest.Audio;
 
 
 public final class TestFragment extends Fragment {
@@ -739,7 +740,10 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain3Up.", Toast.LENGTH_SHORT).show();
 				DTV_switcher.setImageResource(imgDTVOn);  
-				// TO DO
+				if(false != mIpclServer.mAudio.srcIsDTV())
+				{
+					mIpclServer.mAudio.setSrcToDTV();
+				}
 			}
 		});
     	
@@ -761,7 +765,10 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain4Up.", Toast.LENGTH_SHORT).show();
 				DVD_switcher.setImageResource(imgDVDOn);  
-				//TO DO
+				if(false != mIpclServer.mAudio.srcIsDVD())
+				{
+					mIpclServer.mAudio.setSrcToDVD();
+				}
 			}
 		});
     	
@@ -796,6 +803,9 @@ public final class TestFragment extends Fragment {
     	Button btnEnter = (Button) view.findViewById(R.id.btn_yes);
     	Button btnDVDAudio = (Button) view.findViewById(R.id.btn_sound);
     	Button btnSubtitle = (Button) view.findViewById(R.id.btn_subtitle);
+    	Button btnDVD = (Button) view.findViewById(R.id.btn_DVD);
+    	Button btnSD = (Button) view.findViewById(R.id.btn_SD);
+    	Button btnUSB = (Button) view.findViewById(R.id.btn_USB);
 
 
     	
@@ -970,8 +980,38 @@ public final class TestFragment extends Fragment {
 			}
 		});
     	
+    	btnDVD.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnDVD.", Toast.LENGTH_SHORT).show();
+				Log.v("colin", "btnDVD");
+				mIpclServer.mDvd.setDVDPlay();
+			}
+		});
 
-    	
+		btnSD.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnSD.", Toast.LENGTH_SHORT).show();
+				Log.v("colin", "btnSD");
+				mIpclServer.mDvd.setDVDPlay();
+			}
+		});
+
+		btnUSB.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "btnUSB.", Toast.LENGTH_SHORT).show();
+				Log.v("colin", "btnUSB");
+				mIpclServer.mDvd.setDVDPlay();
+			}
+		});
     }
     
 	final Handler handler = new Handler() {
