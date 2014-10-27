@@ -9,10 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
-
-import com.example.plctest.Ipcl;
+import com.gmc.motorhome.*;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -35,6 +37,8 @@ public class SampleTabsWithIcons extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);		
+        
         setContentView(R.layout.simple_tabs);
         Log.d("colin", "onCreate activity tabs.");
 
@@ -53,23 +57,43 @@ public class SampleTabsWithIcons extends FragmentActivity {
 	final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			//System的心跳消息周期为1秒，如果5秒收不到任何消息视为通信中断，显示界面提示
 			
-			if (msg.what == 0x0001)
+			if (msg.what == (int)mIpclServer.SS_PLC)
 			{
-				byte[] rxMsg = (byte[]) msg.obj;
-				String recText = new String();
-				
-				for (int i = 0; i < msg.arg1 ; i++)
-				{
-					recText = recText + Integer.toHexString(rxMsg[i]) + " ";
-				}
-				
-				//logWindow.append(recText + "\n");
+			
+				//Toast.makeText(SampleTabsWithIcons.this, "PLC state updated!", Toast.LENGTH_SHORT).show();	
 			}
 			
+			if (msg.what == (int)mIpclServer.SS_DVD)
+			{
+			
+				//Toast.makeText(SampleTabsWithIcons.this, "DVD state updated!", Toast.LENGTH_SHORT).show();	
+			}
+			
+			if (msg.what == (int)mIpclServer.SS_SYSTEM)
+			{
+			
+				Toast.makeText(SampleTabsWithIcons.this, "SYSTEM state updated!", Toast.LENGTH_SHORT).show();	
+			}		
+			
+			if (msg.what == (int)mIpclServer.SS_AUDIO)
+			{
+			
+				Toast.makeText(SampleTabsWithIcons.this, "AUDIO state updated!", Toast.LENGTH_SHORT).show();	
+			}			
 			
 		}
 	};	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			moveTaskToBack(false);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 
 	@Override
 	protected void onResume() {
@@ -82,10 +106,21 @@ public class SampleTabsWithIcons extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-		mIpclServer.destroyIpcl();
+		//mIpclServer.destroyIpcl();
 		super.onDestroy();
 	}	
-    class GoogleMusicAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
+	
+	
+	
+    @Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+
+
+
+	class GoogleMusicAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
         public GoogleMusicAdapter(FragmentManager fm) {
             super(fm);
         }

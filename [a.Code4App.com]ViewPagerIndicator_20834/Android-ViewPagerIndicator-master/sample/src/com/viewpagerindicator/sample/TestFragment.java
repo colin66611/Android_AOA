@@ -21,8 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher.ViewFactory;
 
-import com.example.plctest.Ipcl;
-import com.example.plctest.Audio;
+import com.gmc.motorhome.*;
+import com.gmc.motorhome.Audio.AudioSrc;
 
 
 public final class TestFragment extends Fragment {
@@ -67,7 +67,7 @@ public final class TestFragment extends Fragment {
     
     
     /*new plc agent*/
-    private PlcAgent plcAgent;
+
     public static Ipcl mIpclServer;
 
     @Override
@@ -79,10 +79,7 @@ public final class TestFragment extends Fragment {
             mContent = savedInstanceState.getString(KEY_CONTENT);
         }
         
-    	plcAgent = new PlcAgent(); 
-    	/*new and start ipcl thread*/
-		//mIpclServer = new Ipcl(getActivity(), handler);
-		//mIpclServer.start();
+    	/* get ipcl instance */
     	mIpclServer = Ipcl.getInstance();
     }
 
@@ -104,27 +101,27 @@ public final class TestFragment extends Fragment {
     	case 0:
     		fragmentView = inflater.inflate(R.layout.page_0, container, false);
     		fragmentPage_0(fragmentView);
-    		Log.d("colin", "page 1.");
+    		Log.d("colin", "page 0.");
     		break;
     	case 1:
     		fragmentView = inflater.inflate(R.layout.page_1, container, false);
     		fragmentPage_1(fragmentView);
-    		Log.d("colin", "page 2.");
+    		Log.d("colin", "page 1.");
     		break;
     	case 2:
     		fragmentView = inflater.inflate(R.layout.page_2, container, false);
     		fragmentPage_2(fragmentView);
-    		Log.d("colin", "page 3.");
+    		Log.d("colin", "page 2.");
     		break;
     	case 3:
     		fragmentView = inflater.inflate(R.layout.page_3, container, false);
     		fragmentPage_3(fragmentView);
-    		Log.d("colin", "page 4.");
+    		Log.d("colin", "page 3.");
     		break;
     	case 4:
     		fragmentView = inflater.inflate(R.layout.page_4, container, false);
     		fragmentPage_4(fragmentView);
-    		Log.d("colin", "page 5.");
+    		Log.d("colin", "page 4.");
     		break;    		
     	default:
     		Log.e("colin", "index is wrong." + Index);
@@ -138,19 +135,30 @@ public final class TestFragment extends Fragment {
 
         return fragmentView;
     }
-//    
-//    @Override
-//    public void onResume(){
-//		super.onResume();	
-//		mIpclServer.resumeIpcl();   	
-//    }
+
+    
+    @Override
+    public void onResume(){
+		super.onResume();	
+		Index = getArguments().getInt("index", 0);
+		Log.d("colin", "fragment onResume page." + Index);
+			
+    }
     
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-    	Log.d("colin", "inside onSaveInstanceState.");
+    	Index = getArguments().getInt("index", 0);
+    	Log.d("colin", "inside onSaveInstanceState page." + Index);
         super.onSaveInstanceState(outState);
         outState.putString(KEY_CONTENT, mContent);
+    }
+    
+    @Override
+    public void onStop() {
+    	super.onStop();
+    	Index = getArguments().getInt("index", 0);
+    	Log.d("colin", "fragment onStop." + Index);
     }
     
     
@@ -740,9 +748,9 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain3Up.", Toast.LENGTH_SHORT).show();
 				DTV_switcher.setImageResource(imgDTVOn);  
-				if(false != mIpclServer.mAudio.srcIsDTV())
+				//if(false != mIpclServer.mAudio.srcIsDTV())
 				{
-					mIpclServer.mAudio.setSrcToDTV();
+					mIpclServer.mAudio.setAudioSrc(AudioSrc.DTV);;
 				}
 			}
 		});
@@ -765,9 +773,9 @@ public final class TestFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnCurtain4Up.", Toast.LENGTH_SHORT).show();
 				DVD_switcher.setImageResource(imgDVDOn);  
-				if(false != mIpclServer.mAudio.srcIsDVD())
+				//if(false != mIpclServer.mAudio.srcIsDVD())
 				{
-					mIpclServer.mAudio.setSrcToDVD();
+					mIpclServer.mAudio.setAudioSrc(AudioSrc.DVD);;
 				}
 			}
 		});
@@ -1035,138 +1043,25 @@ public final class TestFragment extends Fragment {
 		}
 	};
 	
-	public class PlcAgent{
-		public final byte MSG_FRAME_HEADER = 0x02;
-		public final byte MSG_FRAME_FOOTER = 0x03;
-		public final int MAX_SWITCH_NO = 25;
-		
-		public void setTvUpOn(){
-			setSwitch(0, true);			
-		}
-		
-		public void setTvUpOff(){
-			setSwitch(0, false);
-		}
-		
-		public void setTvDnOn(){
-			setSwitch(1, true);			
-		}
-		
-		public void setTvDnOff(){
-			setSwitch(1, false);	
-		}		
-		public void setTvPwrOn(){
-			setSwitch(2, true);
-		}
-		
-		public void setTvPwrOff(){
-			setSwitch(2, false);
-		}
-		public void setGlassPwrOn(){
-			setSwitch(3, true);
-		}
-		
-		public void setGlassPwrOff(){
-			setSwitch(3, false);
-		}		
-		private int setSwitch(int iSwitchNo, boolean bState){
-			
-			if (iSwitchNo >= 0 && iSwitchNo <= MAX_SWITCH_NO )
-			{
-				byte[] plcCmd;
-				plcCmd = new byte[14];
-				
-				plcCmd[0] = (byte) 0x02;
-				
-				plcCmd[1] = (byte) '0';
-				plcCmd[2] = (byte) '1';
-				
-				plcCmd[3] = (byte) '4';
-				plcCmd[4] = (byte) '2';
-				
-				if (bState == true)
-				{
-					plcCmd[5] = (byte) '3';
-				}
-				else
-				{
-					plcCmd[5] = (byte) '4';					
-				}
-				
-				plcCmd[6] = (byte) 'Y';
-				
-				String sSwitchNo = Integer.toString(iSwitchNo);
-				
-				
-				plcCmd[7] = (byte) '0';
-				plcCmd[8] = (byte) '0';
-				plcCmd[9] = (byte) '0';
-				plcCmd[10] = (byte) '0'; 
-				
-				if (sSwitchNo.length() >= 4)
-				{
-					plcCmd[7] = (byte)sSwitchNo.charAt(3);
-				}
-				if (sSwitchNo.length() >= 3)
-				{
-					plcCmd[8] = (byte)sSwitchNo.charAt(2);
-				}
-				if (sSwitchNo.length() >= 2)
-				{
-					plcCmd[9] = (byte)sSwitchNo.charAt(1);
-				}
-				if (sSwitchNo.length() >= 1)
-				{
-					plcCmd[10] = (byte)sSwitchNo.charAt(0);
-				}	
-				
-				byte lrc = calculateLRC(plcCmd, 11);
-				
-				plcCmd[11] = bcdToAsc((byte)((lrc >> 4) & 0x0F));				
-				plcCmd[12] = bcdToAsc((byte)(lrc & 0x0F));		
-				
-				plcCmd[13] = (byte) 0x03;
-				
-				mIpclServer.sendRawMsg(plcCmd);
-				
-				return 0;
-			}
-			else
-			{
-				return -1;
-			}
-		}
-		
-		private byte bcdToAsc(byte bcd)
+	private void sync_status( int page) {
+		switch(page)
 		{
-			if ((bcd >= 0x00) && (bcd <= 0x09))
-			{
-				return (byte)(bcd + (byte)'0');
-			}
-			else if ((bcd >= 0x0A) && (bcd <= 0x0F))
-			{
-				return (byte)(bcd + (byte)'A' - (byte)0x0A);
-			}
-			else
-			{
-				return (byte)0x00;
-			}
+		case 0:
 			
-		}
-
-		private byte calculateLRC(byte[] buff, int byteNum)
-		{
-			int loop;
-			byte res = 0;
+		case 1:
 			
-			for (loop = 0; loop < byteNum; loop ++)
-			{
-				res = (byte)(buff[loop] + res);
-			}
+		case 2:
 			
-			return res;
+		case 3:
+			
+		case 4:
+			
+		default:
+			Log.e("colin", "sync status: wrong page num.");
+			break;
+		
 		}
 	}
-    
+	    
 
 }
