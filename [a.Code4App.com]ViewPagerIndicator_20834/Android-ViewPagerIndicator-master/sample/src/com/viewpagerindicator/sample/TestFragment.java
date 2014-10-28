@@ -171,6 +171,10 @@ public final class TestFragment extends Fragment {
     	Button btnTvDown = (Button) view.findViewById(R.id.btn_TV_down);
     	Button btnGlassDown = (Button) view.findViewById(R.id.btn_glass_down);
     	
+    	if(mIpclServer.mPlc.getTVUp() == true) {
+    		btnTvUp.setEnabled(false);
+    	}
+    	
     	btnLanguage.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -184,6 +188,7 @@ public final class TestFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 				mIpclServer.mPlc.setTVUp();
@@ -663,11 +668,36 @@ public final class TestFragment extends Fragment {
     	DTV_switcher.setFactory(new ViewFactoryDTV());
     	DVD_switcher.setFactory(new ViewFactoryDVD());
     	
-    	Sunroof_switcher.setImageResource(imgCurtainOpen); 
-    	PC_switcher.setImageResource(imgPCOn);  
-    	DTV_switcher.setImageResource(imgDTVOn); 
-    	DVD_switcher.setImageResource(imgDVDOn); 
+    	mIpclServer.mPlc.openSunroof();
     	
+    	if(mIpclServer.mPlc.getSunroofOpenState()) {
+    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
+    	}
+    	else {
+    		Sunroof_switcher.setImageResource(imgSunroofClose);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getPCPwrState()) {
+    		PC_switcher.setImageResource(imgPCOn);  
+    	}
+    	else {
+    		PC_switcher.setImageResource(imgPCOff);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getSunroofOpenState()) {
+    		DTV_switcher.setImageResource(imgDTVOn);  
+    	}
+    	else {
+    		DTV_switcher.setImageResource(imgDTVOff);  
+    	}
+    	
+    	if(mIpclServer.mPlc.getSunroofOpenState()) {
+    		DVD_switcher.setImageResource(imgDVDOn);  
+    	}
+    	else {
+    		DVD_switcher.setImageResource(imgDVDOff);  
+    	}
+
 //    	if(mIpclServer.mPlc.getShadeOpenState_1()) {
 //    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
 //    	}

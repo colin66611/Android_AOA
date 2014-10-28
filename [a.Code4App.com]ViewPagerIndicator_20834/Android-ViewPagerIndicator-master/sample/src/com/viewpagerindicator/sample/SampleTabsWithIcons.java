@@ -30,6 +30,11 @@ public class SampleTabsWithIcons extends FragmentActivity {
             R.drawable.perm_group_location,
             R.drawable.perm_group_location,
     };
+    
+    Fragment testFragment;
+    
+    android.app.FragmentManager fragmentManager = getFragmentManager();
+    
 
 
 
@@ -106,7 +111,7 @@ public class SampleTabsWithIcons extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-		//mIpclServer.destroyIpcl();
+		mIpclServer.destroyIpcl();
 		super.onDestroy();
 	}	
 	

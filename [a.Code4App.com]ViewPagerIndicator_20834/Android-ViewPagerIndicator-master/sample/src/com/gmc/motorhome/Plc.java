@@ -176,6 +176,16 @@ public
 		return (setBatchState(mDevStatus));	
 	}
 	
+	public boolean getTVUp()
+	{
+		return (getDevState(DEV_TV_UP));
+	}
+	
+	public boolean getTVDown()
+	{
+		return (getDevState(DEV_TV_DOWN));
+	}
+	
 	public boolean setTVPwr(boolean bOn)
 	{
 		setDevState(DEV_TV_PWR, bOn);
@@ -229,10 +239,20 @@ public
 		return (setBatchState(mDevStatus));		
 	}
 	
+	public boolean getSunroofOpenState()
+	{
+		return getDevState(DEV_SUNROOF_OPEN);
+	}
+	
 	public boolean setPCPwr(boolean bOn)
 	{
 		setDevState(DEV_PC_PWR, bOn);	
 		return (setBatchState(mDevStatus));			
+	}
+	
+	public boolean getPCPwrState()
+	{
+		return (getDevState(DEV_PC_PWR));
 	}
 	
 	/* µÆ¹â¿ØÖÆ */
