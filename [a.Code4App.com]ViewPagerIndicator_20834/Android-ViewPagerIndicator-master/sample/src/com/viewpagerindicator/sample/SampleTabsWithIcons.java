@@ -18,8 +18,9 @@ import com.gmc.motorhome.*;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class SampleTabsWithIcons extends FragmentActivity {
+public class SampleTabsWithIcons extends FragmentActivity implements MessageListener{
 	
+	private MessageListener actMsgListener;
 	public Ipcl mIpclServer;
 	
     private static final String[] CONTENT = new String[] { "Ö÷Ò³", "´°Á±", "µÆ¹â", "µçÆ÷", "DVD"};
@@ -31,13 +32,6 @@ public class SampleTabsWithIcons extends FragmentActivity {
             R.drawable.perm_group_location,
     };
     
-    Fragment testFragment;
-    
-    android.app.FragmentManager fragmentManager = getFragmentManager();
-    
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,25 +60,25 @@ public class SampleTabsWithIcons extends FragmentActivity {
 			
 			if (msg.what == (int)mIpclServer.SS_PLC)
 			{
-			
-				//Toast.makeText(SampleTabsWithIcons.this, "PLC state updated!", Toast.LENGTH_SHORT).show();	
+				actMsgListener.syncView(actMsgListener.SS_PLC);
+				Toast.makeText(SampleTabsWithIcons.this, "PLC state updated!", Toast.LENGTH_SHORT).show();	
 			}
 			
 			if (msg.what == (int)mIpclServer.SS_DVD)
 			{
-			
-				//Toast.makeText(SampleTabsWithIcons.this, "DVD state updated!", Toast.LENGTH_SHORT).show();	
+				actMsgListener.syncView(actMsgListener.SS_DVD);
+				Toast.makeText(SampleTabsWithIcons.this, "DVD state updated!", Toast.LENGTH_SHORT).show();	
 			}
 			
 			if (msg.what == (int)mIpclServer.SS_SYSTEM)
 			{
-			
+				actMsgListener.syncView(actMsgListener.SS_SYSTEM);
 				Toast.makeText(SampleTabsWithIcons.this, "SYSTEM state updated!", Toast.LENGTH_SHORT).show();	
 			}		
 			
 			if (msg.what == (int)mIpclServer.SS_AUDIO)
 			{
-			
+				actMsgListener.syncView(actMsgListener.SS_AUDIO);
 				Toast.makeText(SampleTabsWithIcons.this, "AUDIO state updated!", Toast.LENGTH_SHORT).show();	
 			}			
 			
@@ -122,6 +116,19 @@ public class SampleTabsWithIcons extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
+    
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+    	Log.d("colin", "onAttachFragment");
+    	try {
+    		actMsgListener = (MessageListener)fragment;
+    	} catch (Exception e) {
+    		Toast.makeText(SampleTabsWithIcons.this, "fragment has to finish the method.", Toast.LENGTH_SHORT).show();
+    	}
+    	
+    	// TODO Auto-generated method stub
+    	super.onAttachFragment(fragment); 
+    }
 
 
 
@@ -150,6 +157,12 @@ public class SampleTabsWithIcons extends FragmentActivity {
           return CONTENT.length;
         }
     }
+
+	@Override
+	public void syncView(int type) {
+		// TODO Auto-generated method stub
+		
+	}
     
 
 	
