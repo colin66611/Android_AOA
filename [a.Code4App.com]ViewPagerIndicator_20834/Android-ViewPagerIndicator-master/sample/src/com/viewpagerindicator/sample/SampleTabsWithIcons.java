@@ -4,6 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,30 +40,49 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
     
     
     
-	Timer heart_beat_timer = new Timer(true);
+	Timer timer = new Timer();
     private boolean IPCL_com_flag = false;
     private int heart_beat_lost_count = 0; 
     TimerTask IPCL_timeout_task = new TimerTask() {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			if(IPCL_com_flag == false) {
-				heart_beat_lost_count++;
-			}
-			else {
-				IPCL_com_flag = false;
-				heart_beat_lost_count = 0;
-				Log.d("colin", "IPCL lost comm for" + heart_beat_lost_count + "seconds.");
-			}
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if(IPCL_com_flag == false) {
+						heart_beat_lost_count++;
+						Log.d("colin", "IPCL lost comm for " + heart_beat_lost_count + " seconds.");
+					}
+					else {
+						IPCL_com_flag = false;
+						heart_beat_lost_count = 0;
+					}
+					
+					if(heart_beat_lost_count == 10) {
+						Log.e("colin", "IPCL lost comm for 10 seconds, comm is break off.");
+						heart_beat_lost_count = 0;
+						timer.cancel();
+						new AlertDialog.Builder(SampleTabsWithIcons.this)
+						.setTitle("错误")
+						.setMessage("PLC消息超时！点击确定退出应用！")
+						.setPositiveButton("确定", new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub						
+								
+							}})
+						.show();
+						
+					}
+				}
+				
+			});
 			
-			if(heart_beat_lost_count == 5) {
-				Log.d("colin", "IPCL lost comm for 5 seconds, comm is break off.");
-				new AlertDialog.Builder(SampleTabsWithIcons.this)
-				.setTitle("错误")
-				.setMessage("PLC消息超时！")
-				.setPositiveButton("确定", null)
-				.show();
-			}
 		}
     	
     };
@@ -77,7 +98,7 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 
 		mIpclServer = new Ipcl(this, handler);
 		mIpclServer.start(); 
-		heart_beat_timer.schedule(IPCL_timeout_task, 1000, 1000);
+		timer.schedule(IPCL_timeout_task, 1000, 1000);
 
         FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
@@ -93,7 +114,6 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 		public void handleMessage(Message msg) {
 			//System的心跳消息周期为1秒，如果5秒收不到任何消息视为通信中断，显示界面提示
 			IPCL_com_flag = true;
-			heart_beat_timer.schedule(IPCL_timeout_task, 1000);
 			Log.d("colin", "recv msg from IPCL: "+ msg.what);
 			
 			if (msg.what == (int)mIpclServer.SS_PLC)
