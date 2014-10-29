@@ -1,5 +1,9 @@
 package com.viewpagerindicator.sample;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,6 +36,36 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
             R.drawable.perm_group_location,
     };
     
+    
+    
+	Timer heart_beat_timer = new Timer(true);
+    private boolean IPCL_com_flag = false;
+    private int heart_beat_lost_count = 0; 
+    TimerTask IPCL_timeout_task = new TimerTask() {
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			if(IPCL_com_flag == false) {
+				heart_beat_lost_count++;
+			}
+			else {
+				IPCL_com_flag = false;
+				heart_beat_lost_count = 0;
+				Log.d("colin", "IPCL lost comm for" + heart_beat_lost_count + "seconds.");
+			}
+			
+			if(heart_beat_lost_count == 5) {
+				Log.d("colin", "IPCL lost comm for 5 seconds, comm is break off.");
+				new AlertDialog.Builder(SampleTabsWithIcons.this)
+				.setTitle("错误")
+				.setMessage("PLC消息超时！")
+				.setPositiveButton("确定", null)
+				.show();
+			}
+		}
+    	
+    };
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +76,8 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
         Log.d("colin", "onCreate activity tabs.");
 
 		mIpclServer = new Ipcl(this, handler);
-		mIpclServer.start();  
+		mIpclServer.start(); 
+		heart_beat_timer.schedule(IPCL_timeout_task, 1000, 1000);
 
         FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
@@ -57,6 +92,9 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 		@Override
 		public void handleMessage(Message msg) {
 			//System的心跳消息周期为1秒，如果5秒收不到任何消息视为通信中断，显示界面提示
+			IPCL_com_flag = true;
+			heart_beat_timer.schedule(IPCL_timeout_task, 1000);
+			Log.d("colin", "recv msg from IPCL: "+ msg.what);
 			
 			if (msg.what == (int)mIpclServer.SS_PLC)
 			{
