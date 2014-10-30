@@ -219,40 +219,6 @@ public class FT311UARTInterface extends Activity
 		return status;
 	}
 
-	/*read data*/
-	public byte ReadData(int numBytes,byte[] buffer, int [] actualNumBytes)
-	{
-		status = 0x00; /*success by default*/
-
-		/*should be at least one byte to read*/
-		if((numBytes < 1) || (totalBytes == 0)){
-			actualNumBytes[0] = 0;
-			status = 0x01;
-			return status;
-		}
-
-		/*check for max limit*/
-		if(numBytes > totalBytes)
-			numBytes = totalBytes;
-
-		/*update the number of bytes available*/
-		totalBytes -= numBytes;
-
-		actualNumBytes[0] = numBytes;	
-
-		/*copy to the user buffer*/	
-		for(int count = 0; count<numBytes;count++)
-		{
-			buffer[count] = readBuffer[readIndex];
-			readIndex++;
-			/*shouldnt read more than what is there in the buffer,
-			 * 	so no need to check the overflow
-			 */
-			readIndex %= maxnumbytes;
-		}
-		return status;
-	}
-
 	public int readDataBlocked1(byte[] buff, int iExpectNum)
 	{
 				
@@ -296,70 +262,101 @@ public class FT311UARTInterface extends Activity
 		
 		return (iExpectNum);
 	}
-	
-	/**
-	 * 
-	 * @param iExpectNum
-	 * @param buff
-	 * @return error < 0; Actual read byte number; 
-	 * 
-	 */
-	public int readRataBlocked(byte[] buff, int iExpectNum)
+
+	public int readDataBlocked(byte[] buff, int iExpectNum)
 	{
-		int iRes = 0;
-		int iActualNum = 0;
-		int iReadNum = 0;
-		byte[] tempBuff = new byte[iExpectNum];
-		
-		
-		/* judge if AOA is established */
-		if(inputstream != null)
+				
+		if ((iExpectNum <= 0) 
+			|| (buff == null)
+			|| (inputstream == null))
 		{
-			while (iReadNum < iExpectNum)
+			iExpectNum = 0;
+		}
+		else
+		{
+			
+			if (iExpectNum > maxnumbytes - 1024)
+			{
+				iExpectNum = maxnumbytes - 1024;
+			}
+			
+			if (iExpectNum > buff.length)
+			{
+				iExpectNum = buff.length;
+			}
+			
+			while (iExpectNum > totalBytes)
 			{
 				try
 				{
-					iActualNum = inputstream.read(tempBuff, 0, iExpectNum - iReadNum);
-					
-					for (int i = 0; i < iActualNum; i++)
-					{
-						buff[iReadNum + i] = tempBuff[i];
-					}
-					iReadNum = iReadNum + iActualNum;
-					if (iActualNum == 0)
-					{/* no data, sleep for a while */
-						try
-						{
-							Thread.sleep(50);
-						}
-						catch (InterruptedException e)
-						{/* interrupted, continue */
-							e.printStackTrace();
-						}
-					}
+					readcount = inputstream.read(usbdata, 0, 1024);
 				}
 				catch(IOException e)
 				{/* AOA read failure, quit read with error */
 					e.printStackTrace();
-					iRes = -1;
+					iExpectNum = 0;
 					break;
-				}				
+				}	
+
+				if (readcount > 0)
+				{
+					//if (writeIndex + readcount < maxnumbytes)
+					//{
+					//	System.arraycopy(usbdata, 0, readBuffer, writeIndex, readcount);
+					//}
+					//else
+					//{
+					//	System.arraycopy(usbdata, 0, readBuffer, writeIndex, maxnumbytes - writeIndex);
+					//	System.arraycopy(usbdata, maxnumbytes - writeIndex, readBuffer, 0, readcount - maxnumbytes + writeIndex);						
+					//}
+					
+					//writeIndex = (writeIndex + readcount) % maxnumbytes;
+					//totalBytes = totalBytes + readcount;
+					
+					for (int i = 0; i < readcount; i++)
+					{
+						readBuffer[writeIndex] = usbdata[i];
+						writeIndex = (writeIndex + 1) % maxnumbytes;
+					}
+					totalBytes = totalBytes + readcount;
+				}
+				else
+				{
+					try 
+					{
+						Thread.sleep(100);
+					}
+					catch (InterruptedException e) 
+					{
+						e.printStackTrace();
+					}									
+				}
 			}
-		}
-		else
-		{
-			iRes = -2;
+			
+			//if (readIndex + iExpectNum < maxnumbytes)
+			//{
+			//	System.arraycopy(readBuffer, readIndex, buff, 0, iExpectNum);
+			//}
+			//else
+			//{
+			//	System.arraycopy(readBuffer, readIndex, buff, 0, maxnumbytes - readIndex);
+			//	System.arraycopy(readBuffer, 0, buff, maxnumbytes - readIndex,  iExpectNum - maxnumbytes + readIndex);	
+			//}
+
+			//readIndex = (readIndex + iExpectNum) % maxnumbytes;
+			//totalBytes = totalBytes - iExpectNum;
+			
+			for (int i = 0; i < iExpectNum; i++)
+			{
+				buff[i] = readBuffer[readIndex];
+				readIndex = (readIndex + 1) % maxnumbytes;
+			}
+			totalBytes = totalBytes - iExpectNum;
 		}
 		
-		if (iRes < 0)
-		{
-			return (iRes);
-		}
-		else
-		{
-			return (iExpectNum);
-		}
+		return (iExpectNum);
 	}
+
 	
 	/*method to send on USB*/
 	private void SendPacket(int numBytes)
@@ -487,35 +484,35 @@ public class FT311UARTInterface extends Activity
 
 			if(READ_ENABLE == false){
 				READ_ENABLE = true;
-				readThread = new read_thread(inputstream);
-				readThread.start();
+				//readThread = new read_thread(inputstream);
+				//readThread.start();
 			}
 		}
 	}
 
 	private void CloseAccessory()
 	{
-		//try{
-		//	if(filedescriptor != null)
-		//		filedescriptor.close();
+		try{
+			if(filedescriptor != null)
+				filedescriptor.close();
 
-		//}catch (IOException e){}
+		}catch (IOException e){}
 
-		//try {
-		//	if(inputstream != null)
-		//		inputstream.close();
-		//} catch(IOException e){}
+		try {
+			if(inputstream != null)
+				inputstream.close();
+		} catch(IOException e){}
 
-		//try {
-		//	if(outputstream != null)
-		//		outputstream.close();
+		try {
+			if(outputstream != null)
+				outputstream.close();
 
-		//}catch(IOException e){}
+		}catch(IOException e){}
 		/*FIXME, add the notfication also to close the application*/
 
-		//filedescriptor = null;
-		//inputstream = null;
-		//outputstream = null;
+		filedescriptor = null;
+		inputstream = null;
+		outputstream = null;
 
 		System.exit(0);
 	}
@@ -572,50 +569,12 @@ public class FT311UARTInterface extends Activity
 		{		
 			while(READ_ENABLE == true)
 			{
-				while(totalBytes > (maxnumbytes - 1024))
-				{
 					try 
 					{
 						Thread.sleep(50);
 					}
 					catch (InterruptedException e) {e.printStackTrace();}
-				}
 
-				try
-				{
-					if(instream != null)
-					{	
-						//synchronized(buffLock)
-						{
-							readcount = instream.read(usbdata,0, 1024);
-							if(readcount > 0)
-							{
-								for(int count = 0;count<readcount;count++)
-								{					    			
-									readBuffer[writeIndex] = usbdata[count];
-									writeIndex++;
-									writeIndex %= maxnumbytes;
-								}
-	
-								if(writeIndex >= readIndex)
-									totalBytes = writeIndex-readIndex;
-								else
-									totalBytes = (maxnumbytes-readIndex)+writeIndex;
-	
-	//					    		Log.e(">>@@","totalBytes:"+totalBytes);
-							}
-							else
-							{
-								try 
-								{
-									Thread.sleep(50);
-								}
-								catch (InterruptedException e) {e.printStackTrace();}									
-							}
-						}
-					}
-				}
-				catch (IOException e){e.printStackTrace();}
 			}
 		}
 	}

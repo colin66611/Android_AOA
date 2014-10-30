@@ -74,7 +74,7 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub						
-								
+								//点击确定后，暂时不做处理
 							}})
 						.show();
 						
@@ -112,32 +112,35 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 	final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			//System的心跳消息周期为1秒，如果5秒收不到任何消息视为通信中断，显示界面提示
+			//System的心跳消息周期为1秒，如果10秒收不到任何消息视为通信中断，显示界面提示
 			IPCL_com_flag = true;
-			Log.d("colin", "recv msg from IPCL: "+ msg.what);
 			
 			if (msg.what == (int)mIpclServer.SS_PLC)
 			{
+				
+				Toast.makeText(SampleTabsWithIcons.this, "PLC state updated!", Toast.LENGTH_SHORT).show();
 				actMsgListener.syncView(actMsgListener.SS_PLC);
-				Toast.makeText(SampleTabsWithIcons.this, "PLC state updated!", Toast.LENGTH_SHORT).show();	
 			}
 			
 			if (msg.what == (int)mIpclServer.SS_DVD)
 			{
-				actMsgListener.syncView(actMsgListener.SS_DVD);
+				
 				Toast.makeText(SampleTabsWithIcons.this, "DVD state updated!", Toast.LENGTH_SHORT).show();	
+				actMsgListener.syncView(actMsgListener.SS_DVD);
 			}
 			
 			if (msg.what == (int)mIpclServer.SS_SYSTEM)
 			{
-				actMsgListener.syncView(actMsgListener.SS_SYSTEM);
+				
 				Toast.makeText(SampleTabsWithIcons.this, "SYSTEM state updated!", Toast.LENGTH_SHORT).show();	
+				actMsgListener.syncView(actMsgListener.SS_SYSTEM);
 			}		
 			
 			if (msg.what == (int)mIpclServer.SS_AUDIO)
 			{
-				actMsgListener.syncView(actMsgListener.SS_AUDIO);
+				
 				Toast.makeText(SampleTabsWithIcons.this, "AUDIO state updated!", Toast.LENGTH_SHORT).show();	
+				actMsgListener.syncView(actMsgListener.SS_AUDIO);
 			}			
 			
 		}

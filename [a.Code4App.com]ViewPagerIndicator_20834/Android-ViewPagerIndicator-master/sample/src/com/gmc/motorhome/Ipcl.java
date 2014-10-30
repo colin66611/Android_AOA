@@ -159,7 +159,7 @@ public class Ipcl extends Thread{
 		
 		while (true) {
 		
-			if (mUartAgent.readDataBlocked1(tempBuff, 1) == 1)
+			if (mUartAgent.readDataBlocked(tempBuff, 1) == 1)
 			{/* read new byte */
 				//logWindow.append(Byte.toString(tempBuff[0]));
 
@@ -245,7 +245,8 @@ public class Ipcl extends Thread{
 				t_step = 3;
 				
 				t_expect_len = t_expect_len + (int)(m_rxPool.msg[t_cur] & 0xFF);
-				if (t_expect_len < IPCL_RX_POOL_SIZE)
+				if ((t_expect_len < IPCL_RX_POOL_SIZE) && 
+					(t_expect_len > 9))
 				{
 					t_frame_len = 3;
 					t_step = 3;			
@@ -297,7 +298,7 @@ public class Ipcl extends Thread{
 						}
 						
 						checksum = calChecksum(ipcl_msg, 3, t_frame_len - 3);
-						if (checksum == m_rxPool.msg[t_cur -1])
+						if (checksum == ipcl_msg[t_frame_len - 2])
 						{
 							//Message msg;
 						
@@ -339,52 +340,53 @@ public class Ipcl extends Thread{
 	
 	private void dispatchMsg(byte[] ipcl_frame)
 	{
-		byte[] msg = new byte[ipcl_frame.length - 9];
-		
-		System.arraycopy(ipcl_frame, 7, msg, 0, ipcl_frame.length - 9);
-		
-		switch (ipcl_frame[4])
+		if (ipcl_frame.length > 9)
 		{
-		case SS_SYSTEM:
-			if (mSystem.notificationCallback(msg) == true)
+			byte[] msg = new byte[ipcl_frame.length - 9];
+			
+			System.arraycopy(ipcl_frame, 7, msg, 0, ipcl_frame.length - 9);
+			
+			switch (ipcl_frame[4])
 			{
-				Message UImsg;
+			case SS_SYSTEM:
+				if (mSystem.notificationCallback(msg) == true)
+				{
+					Message UImsg;
+					
+					UImsg = mTargetHandler.obtainMessage((int)SS_SYSTEM);
+					mTargetHandler.sendMessage(UImsg);				
+				}
 				
-				UImsg = mTargetHandler.obtainMessage((int)SS_SYSTEM);
-				mTargetHandler.sendMessage(UImsg);				
-			}
-			
-			break;
-			
-		case SS_PLC:
-			if (mPlc.notificationCallback(msg) == true)
-			{
-				Message UImsg;
+				break;
 				
-				UImsg = mTargetHandler.obtainMessage((int)SS_PLC);
-				mTargetHandler.sendMessage(UImsg);				
-			}
-			break;
-			
-		case SS_AUDIO:
-			if (mAudio.notificationCallback(msg) == true)
-			{
-				Message UImsg;
+			case SS_PLC:
+				if (mPlc.notificationCallback(msg) == true)
+				{
+					Message UImsg;
+					
+					UImsg = mTargetHandler.obtainMessage((int)SS_PLC);
+					mTargetHandler.sendMessage(UImsg);				
+				}
+				break;
 				
-				UImsg = mTargetHandler.obtainMessage((int)SS_AUDIO);
-				mTargetHandler.sendMessage(UImsg);	
+			case SS_AUDIO:
+				if (mAudio.notificationCallback(msg) == true)
+				{
+					Message UImsg;
+					
+					UImsg = mTargetHandler.obtainMessage((int)SS_AUDIO);
+					mTargetHandler.sendMessage(UImsg);	
+				}
+				break;
+				
+			case SS_DVD:
+				
+				break;
+				
+			default:
+				break;
 			}
-			break;
-			
-		case SS_DVD:
-			
-			break;
-			
-		default:
-			
-			break;
 		}
-		
 
 	}
 }
