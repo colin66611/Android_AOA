@@ -1,9 +1,11 @@
 package com.viewpagerindicator.sample;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,36 +41,78 @@ public final class TestFragment extends Fragment implements MessageListener{
     static final int imgDVDOn = R.drawable.dvd_on;
     static final int imgDVDOff = R.drawable.dvd_off;
     
+    private SampleTabsWithIcons temp_view;
+    
     /* these views are for fragment page_0*/
-    ToggleButton btnTvSwtich;
-    ToggleButton btnGlassChange;
+    static private ToggleButton btnTvSwtich;
+    static private ToggleButton btnGlassChange;
+    static private Button btnLanguage;
+    static private Button btnTvUp;
+    static private Button btnGlassUp;
+    static private Button btnTvDown;
+    static private Button btnGlassDown;
     
     /* these views are for fragment page_1*/
-    ImageSwitcher curtain_switcher_1;
-    ImageSwitcher curtain_switcher_2;
-    ImageSwitcher curtain_switcher_3;
-    ImageSwitcher curtain_switcher_4;
+    static private ImageSwitcher curtain_switcher_1;
+    static private ImageSwitcher curtain_switcher_2;
+    static private ImageSwitcher curtain_switcher_3;
+    static private ImageSwitcher curtain_switcher_4;
     
     /* these views are for fragment page_2*/
-    ToggleButton btnCabinetLight;
-	ToggleButton btnTopLight;
-	ToggleButton btnMoodLight1;
-	ToggleButton btnMoodLight2;
-	ToggleButton btnMoodLight3;
-	ToggleButton btnReadLight1;
-	ToggleButton btnReadLight2;
-	ToggleButton btnReadLight3;
-	ToggleButton btnReadLight4;
+    static private ToggleButton btnCabinetLight;
+    static private ToggleButton btnTopLight;
+    static private ToggleButton btnMoodLight1;
+    static private ToggleButton btnMoodLight2;
+    static private ToggleButton btnMoodLight3;
+    static private ToggleButton btnReadLight1;
+    static private ToggleButton btnReadLight2;
+    static private ToggleButton btnReadLight3;
+    static private ToggleButton btnReadLight4;
 	
 	/* these views are for fragment page_3*/
-	ImageSwitcher Sunroof_switcher;
-	ImageSwitcher PC_switcher;
-	ImageSwitcher DTV_switcher;
-	ImageSwitcher DVD_switcher;
+    static private ImageSwitcher Sunroof_switcher;
+    static private ImageSwitcher PC_switcher;
+    static private ImageSwitcher DTV_switcher;
+    static private ImageSwitcher DVD_switcher;
+    static private Button btnSunroofOn;
+    static private Button btnSunroofOff;
+    static private Button btnPCOn;
+    static private Button btnPCOff;
+    static private Button btnDTVOn;
+    static private Button btnDTVOff;
+    static private Button btnDVDOn;
+    static private Button btnDVDOff;
 	
-	private AudioSrc mAudioSrc;
+	/* these views are for fragment page_4*/
+    static private Button btnDvdHome;
+    static private Button btnEject;
+    static private Button btnDvdPlay;
+    static private Button btnDvdPause;
+    static private Button btnFF;
+    static private Button btnFB;
+    static private Button btnNext;
+    static private Button btnPrev;
+    static private Button btnRepeat;
+    static private Button btnMix;
+    static private Button btnDVDUp;
+    static private Button btnDVDLeft;
+    static private Button btnDVDRight;
+    static private Button btnDVDDown;
+    static private Button btnEnter;
+    static private Button btnDVDAudio;
+    static private Button btnSubtitle;
+    static private Button btnDVD;
+    static private Button btnSD;
+    static private Button btnUSB;
+    static private TextView txtDirNo;
+    static private TextView txtDiscType;
+    static private TextView txtTrackNo;
+    static private TextView txtFileName;
+    static private TextView txtMode;
+    static private TextView txtID3;
+    static private TextView txtPlayTime;
 	
-    
+
 /*
     public static TestFragment newInstance(String content) {
         TestFragment fragment = new TestFragment();
@@ -83,6 +127,7 @@ public final class TestFragment extends Fragment implements MessageListener{
         return fragment;
     }
 */
+	
     public static TestFragment newInstance(int index) {
     	TestFragment fragment = new TestFragment();
     	Bundle args = new Bundle();
@@ -99,24 +144,33 @@ public final class TestFragment extends Fragment implements MessageListener{
     /*new plc agent*/
 
     public static Ipcl mIpclServer;
+    
+    @Override
+    public void onAttach(Activity activity) {
+    	Log.d("colin", "inside Fragment, onAttach.");
+    	super.onAttach(activity);
+    	/* get ipcl instance */
+    	mIpclServer = Ipcl.getInstance();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("colin", "inside onCreate.");
+        Log.d("colin", "inside fragment onCreate.");
         super.onCreate(savedInstanceState);
 
         if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_CONTENT)) {
             mContent = savedInstanceState.getString(KEY_CONTENT);
         }
         
-    	/* get ipcl instance */
-    	mIpclServer = Ipcl.getInstance();
+    	
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("colin", "inside onCreateView.");
         View fragmentView = null;
+        
+        
         
         TextView text = new TextView(getActivity());
         text.setGravity(Gravity.CENTER);
@@ -162,6 +216,8 @@ public final class TestFragment extends Fragment implements MessageListener{
         layout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         layout.setGravity(Gravity.CENTER);
         layout.addView(text);
+        
+        check_null_pointer();		//for test
 
         return fragmentView;
     }
@@ -193,22 +249,20 @@ public final class TestFragment extends Fragment implements MessageListener{
     
     
     public void fragmentPage_0(View view) {
-    	Button btnLanguage = (Button) view.findViewById(R.id.btn_language);
-    	Button btnTvUp = (Button) view.findViewById(R.id.btn_TV_up);
-    	Button btnGlassUp = (Button) view.findViewById(R.id.btn_glass_up);
+    	   	
+    	
+    	
+    	btnLanguage = (Button) view.findViewById(R.id.btn_language);
+    	btnTvUp = (Button) view.findViewById(R.id.btn_TV_up);
+    	btnGlassUp = (Button) view.findViewById(R.id.btn_glass_up);
+    	btnTvDown = (Button) view.findViewById(R.id.btn_TV_down);
+    	btnGlassDown = (Button) view.findViewById(R.id.btn_glass_down);
+    	
+    	initial_view(SS_PLC);
+    	
     	btnTvSwtich = (ToggleButton) view.findViewById(R.id.btn_TV_swtich);
     	btnGlassChange = (ToggleButton) view.findViewById(R.id.btn_glass_change);
-    	Button btnTvDown = (Button) view.findViewById(R.id.btn_TV_down);
-    	Button btnGlassDown = (Button) view.findViewById(R.id.btn_glass_down);
-    	  	
-    	if(btnTvSwtich.isChecked() != mIpclServer.mPlc.getTVPwr()) {
-			btnTvSwtich.setChecked(mIpclServer.mPlc.getTVPwr());
-		} 
-    	
-    	if(btnGlassChange.isChecked() != mIpclServer.mPlc.getGlassPwr()) {
-    		btnGlassChange.setChecked(mIpclServer.mPlc.getGlassPwr());
-		} 
-    	
+    		
     	
     	btnLanguage.setOnClickListener(new View.OnClickListener() {
 			
@@ -244,7 +298,8 @@ public final class TestFragment extends Fragment implements MessageListener{
     		@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
     			if(isChecked) {
-					Toast.makeText(getActivity(), "btnTvOn.", Toast.LENGTH_SHORT).show();
+    				//if the toggle is checked by code, this statement will also come out
+					Toast.makeText(getActivity(), "btnTvOn.", Toast.LENGTH_SHORT).show();	
 					mIpclServer.mPlc.setTVPwr(true);
 				}
 				else {
@@ -316,9 +371,8 @@ public final class TestFragment extends Fragment implements MessageListener{
     			return curtain_image_1;
     		}
         }
-    	
     	class ViewFactory_2 implements ViewFactory {
-
+    		
     		@Override
     		public View makeView() {
     			// TODO Auto-generated method stub
@@ -326,9 +380,8 @@ public final class TestFragment extends Fragment implements MessageListener{
     			return curtain_image_2;
     		}
         }
-    	
     	class ViewFactory_3 implements ViewFactory {
-
+    		
     		@Override
     		public View makeView() {
     			// TODO Auto-generated method stub
@@ -336,9 +389,8 @@ public final class TestFragment extends Fragment implements MessageListener{
     			return curtain_image_3;
     		}
         }
-    	
     	class ViewFactory_4 implements ViewFactory {
-
+    		
     		@Override
     		public View makeView() {
     			// TODO Auto-generated method stub
@@ -347,38 +399,12 @@ public final class TestFragment extends Fragment implements MessageListener{
     		}
         }
     	
-    	curtain_switcher_1.setFactory(new ViewFactory_1());
-    	curtain_switcher_2.setFactory(new ViewFactory_2());
-    	curtain_switcher_3.setFactory(new ViewFactory_3());
-    	curtain_switcher_4.setFactory(new ViewFactory_4());
-    	
-    	if(mIpclServer.mPlc.getShadeOpenState_1()) {
-    		curtain_switcher_1.setImageResource(imgCurtainOpen);  
-    	}
-    	else {
-    		curtain_switcher_1.setImageResource(imgCurtainClose);  
-    	}
-    	
-    	if(mIpclServer.mPlc.getShadeOpenState_2()) {
-    		curtain_switcher_2.setImageResource(imgCurtainOpen);  
-    	}
-    	else {
-    		curtain_switcher_2.setImageResource(imgCurtainClose);  
-    	}
-    	
-    	if(mIpclServer.mPlc.getShadeOpenState_3()) {
-    		curtain_switcher_3.setImageResource(imgCurtainOpen);  
-    	}
-    	else {
-    		curtain_switcher_3.setImageResource(imgCurtainClose);  
-    	}
-    	
-    	if(mIpclServer.mPlc.getShadeOpenState_4()) {
-    		curtain_switcher_4.setImageResource(imgCurtainOpen);  
-    	}
-    	else {
-    		curtain_switcher_4.setImageResource(imgCurtainClose);  
-    	}
+		curtain_switcher_1.setFactory(new ViewFactory_1());
+		curtain_switcher_2.setFactory(new ViewFactory_2());
+		curtain_switcher_3.setFactory(new ViewFactory_3());
+		curtain_switcher_4.setFactory(new ViewFactory_4());
+	
+		initial_view(SS_PLC);
     	
     	btnCurtain1Up.setOnClickListener(new View.OnClickListener() {
 			
@@ -388,6 +414,7 @@ public final class TestFragment extends Fragment implements MessageListener{
 				if(!mIpclServer.mPlc.getShadeOpenState_1()) {
 					mIpclServer.mPlc.openShade_1();
 					curtain_switcher_1.setImageResource(imgCurtainOpen);
+					check_null_pointer();
 				}
 				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
 			}
@@ -401,6 +428,7 @@ public final class TestFragment extends Fragment implements MessageListener{
 				if(!mIpclServer.mPlc.getShadeCloseState_1()) {
 					mIpclServer.mPlc.closeShade_1();
 					curtain_switcher_1.setImageResource(imgCurtainClose);
+					check_null_pointer();
 				}
 				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
 			}
@@ -497,6 +525,8 @@ public final class TestFragment extends Fragment implements MessageListener{
     	btnReadLight3 = (ToggleButton) view.findViewById(R.id.btn_read_light_3);
     	btnReadLight4 = (ToggleButton) view.findViewById(R.id.btn_read_light_4);
     	
+    	
+    	
     	btnCabinetLight.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -504,10 +534,12 @@ public final class TestFragment extends Fragment implements MessageListener{
 				// TODO Auto-generated method stub
 				if(isChecked) {
 					Toast.makeText(getActivity(), "open btnCabinetLight.", Toast.LENGTH_SHORT).show();
+					check_null_pointer();
 					mIpclServer.mPlc.setBarLight(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnCabinetLight.", Toast.LENGTH_SHORT).show();
+					check_null_pointer();
 					mIpclServer.mPlc.setBarLight(false);
 				}
 			}
@@ -641,22 +673,26 @@ public final class TestFragment extends Fragment implements MessageListener{
 			}
 		});
     	
+    	initial_view(SS_PLC);
+    	
     }
 
     public void fragmentPage_3(View view) {
-    	Button btnSunroofOn = (Button) view.findViewById(R.id.btn_sun_roof_on);
-    	Button btnSunroofOff = (Button) view.findViewById(R.id.btn_sun_roof_off);
-    	Button btnPCOn = (Button) view.findViewById(R.id.btn_pc_on);
-    	Button btnPCOff = (Button) view.findViewById(R.id.btn_pc_off);
-    	Button btnDTVOn = (Button) view.findViewById(R.id.btn_DTV_on);
-    	Button btnDTVOff = (Button) view.findViewById(R.id.btn_DTV_off);
-    	Button btnDVDOn = (Button) view.findViewById(R.id.btn_DVD_on);
-    	Button btnDVDOff = (Button) view.findViewById(R.id.btn_DVD_off);
+    	btnSunroofOn = (Button) view.findViewById(R.id.btn_sun_roof_on);
+    	btnSunroofOff = (Button) view.findViewById(R.id.btn_sun_roof_off);
+    	btnPCOn = (Button) view.findViewById(R.id.btn_pc_on);
+    	btnPCOff = (Button) view.findViewById(R.id.btn_pc_off);
+    	btnDTVOn = (Button) view.findViewById(R.id.btn_DTV_on);
+    	btnDTVOff = (Button) view.findViewById(R.id.btn_DTV_off);
+    	btnDVDOn = (Button) view.findViewById(R.id.btn_DVD_on);
+    	btnDVDOff = (Button) view.findViewById(R.id.btn_DVD_off);
     	
     	Sunroof_switcher 	= (ImageSwitcher) view.findViewById(R.id.img_sunroof);
     	PC_switcher 		= (ImageSwitcher) view.findViewById(R.id.img_PC);
     	DTV_switcher 		= (ImageSwitcher) view.findViewById(R.id.img_DTV);
     	DVD_switcher 		= (ImageSwitcher) view.findViewById(R.id.img_DVD);
+    	
+    	
     	
     	class ViewFactorySunroof implements ViewFactory {
 
@@ -705,22 +741,13 @@ public final class TestFragment extends Fragment implements MessageListener{
     	
     	mIpclServer.mPlc.openSunroof();
     	
-    	if(mIpclServer.mPlc.getSunroofOpenState()) {
-    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
-    	}
-    	else {
-    		Sunroof_switcher.setImageResource(imgSunroofClose);  
-    	}
+
     	
-    	if(mIpclServer.mPlc.getPCPwrState()) {
-    		PC_switcher.setImageResource(imgPCOn);  
-    	}
-    	else {
-    		PC_switcher.setImageResource(imgPCOff);  
-    	}
+    	initial_view(SS_AUDIO); 
+    	initial_view(SS_PLC);
     	
     	
-    	initial_view(SS_AUDIO); 	
+    		
     	
     	btnSunroofOn.setOnClickListener(new View.OnClickListener() {
 			
@@ -775,7 +802,7 @@ public final class TestFragment extends Fragment implements MessageListener{
 				DTV_switcher.setImageResource(imgDTVOn);  
 				//if(false != mIpclServer.mAudio.srcIsDTV())
 				{
-					mIpclServer.mAudio.setAudioSrc(AudioSrc.DTV);;
+					mIpclServer.mAudio.setAudioSrc(AudioSrc.DTV);
 				}
 			}
 		});
@@ -800,7 +827,7 @@ public final class TestFragment extends Fragment implements MessageListener{
 				DVD_switcher.setImageResource(imgDVDOn);  
 				//if(false != mIpclServer.mAudio.srcIsDVD())
 				{
-					mIpclServer.mAudio.setAudioSrc(AudioSrc.DVD);;
+					mIpclServer.mAudio.setAudioSrc(AudioSrc.DVD);
 				}
 			}
 		});
@@ -819,28 +846,36 @@ public final class TestFragment extends Fragment implements MessageListener{
     }
 
     public void fragmentPage_4(View view) {
-    	Button btnDvdHome = (Button) view.findViewById(R.id.btn_dvd_main);
-    	Button btnEject = (Button) view.findViewById(R.id.btn_eject);
-    	Button btnDvdPlay = (Button) view.findViewById(R.id.btn_dvd_display);
-    	Button btnDvdPause = (Button) view.findViewById(R.id.btn_dvd_pause);
-    	Button btnFF = (Button) view.findViewById(R.id.btn_forward);
-    	Button btnFB = (Button) view.findViewById(R.id.btn_rewind);
-    	Button btnNext = (Button) view.findViewById(R.id.btn_next_song);
-    	Button btnPrev = (Button) view.findViewById(R.id.btn_last_song);
-    	Button btnRepeat = (Button) view.findViewById(R.id.btn_dvd_repeat);
-    	Button btnMix = (Button) view.findViewById(R.id.btn_dvd_random);
-    	Button btnDVDUp = (Button) view.findViewById(R.id.btn_up);
-    	Button btnDVDLeft = (Button) view.findViewById(R.id.btn_left);
-    	Button btnDVDRight = (Button) view.findViewById(R.id.btn_right);
-    	Button btnDVDDown = (Button) view.findViewById(R.id.btn_down);
-    	Button btnEnter = (Button) view.findViewById(R.id.btn_yes);
-    	Button btnDVDAudio = (Button) view.findViewById(R.id.btn_sound);
-    	Button btnSubtitle = (Button) view.findViewById(R.id.btn_subtitle);
-    	Button btnDVD = (Button) view.findViewById(R.id.btn_DVD);
-    	Button btnSD = (Button) view.findViewById(R.id.btn_SD);
-    	Button btnUSB = (Button) view.findViewById(R.id.btn_USB);
-
-
+    	btnDvdHome = (Button) view.findViewById(R.id.btn_dvd_main);
+    	btnEject = (Button) view.findViewById(R.id.btn_eject);
+    	btnDvdPlay = (Button) view.findViewById(R.id.btn_dvd_display);
+    	btnDvdPause = (Button) view.findViewById(R.id.btn_dvd_pause);
+    	btnFF = (Button) view.findViewById(R.id.btn_forward);
+    	btnFB = (Button) view.findViewById(R.id.btn_rewind);
+    	btnNext = (Button) view.findViewById(R.id.btn_next_song);
+    	btnPrev = (Button) view.findViewById(R.id.btn_last_song);
+    	btnRepeat = (Button) view.findViewById(R.id.btn_dvd_repeat);
+    	btnMix = (Button) view.findViewById(R.id.btn_dvd_random);
+    	btnDVDUp = (Button) view.findViewById(R.id.btn_up);
+    	btnDVDLeft = (Button) view.findViewById(R.id.btn_left);
+    	btnDVDRight = (Button) view.findViewById(R.id.btn_right);
+    	btnDVDDown = (Button) view.findViewById(R.id.btn_down);
+    	btnEnter = (Button) view.findViewById(R.id.btn_yes);
+    	btnDVDAudio = (Button) view.findViewById(R.id.btn_sound);
+    	btnSubtitle = (Button) view.findViewById(R.id.btn_subtitle);
+    	btnDVD = (Button) view.findViewById(R.id.btn_DVD);
+    	btnSD = (Button) view.findViewById(R.id.btn_SD);
+    	btnUSB = (Button) view.findViewById(R.id.btn_USB);
+    	
+    	txtDirNo = (TextView) view.findViewById(R.id.txt_dir_no);
+    	txtDiscType = (TextView) view.findViewById(R.id.txt_disc_type);
+    	txtTrackNo = (TextView) view.findViewById(R.id.txt_track_no);
+    	txtFileName = (TextView) view.findViewById(R.id.txt_file_name);
+    	txtMode = (TextView) view.findViewById(R.id.txt_mode);
+    	txtID3 = (TextView) view.findViewById(R.id.txt_ID3);
+    	txtPlayTime = (TextView) view.findViewById(R.id.txt_play_time);
+    	
+    	initial_view(SS_DVD);
     	
     	btnDvdPlay.setOnClickListener(new View.OnClickListener() {
 			
@@ -1041,10 +1076,12 @@ public final class TestFragment extends Fragment implements MessageListener{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getActivity(), "btnUSB.", Toast.LENGTH_SHORT).show();
+				check_null_pointer();
 				Log.v("colin", "btnUSB");
 				mIpclServer.mDvd.setDVDPlay();
 			}
 		});
+
     }
     
 	final Handler handler = new Handler() {
@@ -1071,6 +1108,7 @@ public final class TestFragment extends Fragment implements MessageListener{
 	@Override
 	public void syncView(int type) {
 		// TODO Auto-generated method stub
+
 		switch(type)
 		{
 		case SS_PLC:
@@ -1087,30 +1125,201 @@ public final class TestFragment extends Fragment implements MessageListener{
 			break;
 		default:
 			break;
-		}
+		}			
+
 	}
 	
 	private void initial_view(int type) {
+
 		switch(type)
 		{
 		case SS_PLC:
-			if(btnTvSwtich.isChecked() != mIpclServer.mPlc.getTVPwr()) {
-				btnTvSwtich.setChecked(mIpclServer.mPlc.getTVPwr());
-			} 
+
+			//after getting the widgets, we have to initial their state
+			if (btnTvSwtich != null)
+			{
+				if(btnTvSwtich.isChecked() != mIpclServer.mPlc.getTVPwr()) {
+					btnTvSwtich.setChecked(mIpclServer.mPlc.getTVPwr());
+				}
+				else {
+					mIpclServer.mPlc.getTVPwr();
+					Log.d("colin", "btnTvSwtich.isChecked() is "+ btnTvSwtich.isChecked() + "; while get getTVPwr is " + mIpclServer.mPlc.getTVPwr());
+				}
+			}
+			else {
+				Log.d("colin", "btnTvSwtich == null.");
+			}
+			
 	    	
-	    	if(btnGlassChange.isChecked() != mIpclServer.mPlc.getGlassPwr()) {
-	    		btnGlassChange.setChecked(mIpclServer.mPlc.getGlassPwr());
-			} 
+			if(btnGlassChange != null)
+			{
+				if(btnGlassChange.isChecked() != mIpclServer.mPlc.getGlassPwr()) {
+					btnGlassChange.setChecked(mIpclServer.mPlc.getGlassPwr());
+				}
+			}
+			
+			if(Sunroof_switcher != null) {
+		    	if(mIpclServer.mPlc.getSunroofOpenState()) {
+		    		Sunroof_switcher.setImageResource(imgSunroofOpen);  
+		    	}
+		    	else {
+		    		Sunroof_switcher.setImageResource(imgSunroofClose);  
+		    	}
+			}
+		    	
+	    	if(PC_switcher != null) {
+	    		if(mIpclServer.mPlc.getPCPwrState()) {
+		    		PC_switcher.setImageResource(imgPCOn);  
+		    	}
+		    	else {
+		    		PC_switcher.setImageResource(imgPCOff);  
+		    	}
+	    	}
+	    	
+	    	if(curtain_switcher_1 != null) {
+	    		if(mIpclServer.mPlc.getShadeOpenState_1()) {
+	    			curtain_switcher_1.setImageResource(imgCurtainOpen);
+	    		}
+	    		else {
+	    			curtain_switcher_1.setImageResource(imgCurtainClose);
+	    		}
+	    	}
+	    	
+	    	if(curtain_switcher_2 != null) {
+	    		if(mIpclServer.mPlc.getShadeOpenState_1()) {
+	    			curtain_switcher_2.setImageResource(imgCurtainOpen);
+	    		}
+	    		else {
+	    			curtain_switcher_2.setImageResource(imgCurtainClose);
+	    		}
+	    	}
+	    	
+	    	if(curtain_switcher_3 != null) {
+	    		if(mIpclServer.mPlc.getShadeOpenState_1()) {
+	    			curtain_switcher_3.setImageResource(imgCurtainOpen);
+	    		}
+	    		else {
+	    			curtain_switcher_3.setImageResource(imgCurtainClose);
+	    		}
+	    	}
+	    	
+	    	if(curtain_switcher_4 != null) {
+	    		if(mIpclServer.mPlc.getShadeOpenState_1()) {
+	    			curtain_switcher_4.setImageResource(imgCurtainOpen);
+	    		}
+	    		else {
+	    			curtain_switcher_4.setImageResource(imgCurtainClose);
+	    		}
+	    	}
+	    	
+	    	if (btnCabinetLight != null)
+			{
+				if(btnCabinetLight.isChecked() != mIpclServer.mPlc.getBarLight()) {
+					btnCabinetLight.setChecked(mIpclServer.mPlc.getBarLight());
+					Log.d("colin", "btnCabinetLight is changing state.");
+				}
+			}
+	    	if (btnTopLight != null)
+			{
+				if(btnTopLight.isChecked() != mIpclServer.mPlc.getTopLight()) {
+					btnTopLight.setChecked(mIpclServer.mPlc.getTopLight());
+					Log.d("colin", "btnTopLight is changing state.");
+				}
+			}
+	    	if (btnMoodLight1 != null)
+			{
+				if(btnMoodLight1.isChecked() != mIpclServer.mPlc.getModdLight_1()) {
+					btnMoodLight1.setChecked(mIpclServer.mPlc.getModdLight_1());
+					Log.d("colin", "btnMoodLight1 is changing state.");
+				}
+			}
+	    	if (btnMoodLight2 != null)
+			{
+				if(btnMoodLight2.isChecked() != mIpclServer.mPlc.getModdLight_2()) {
+					btnMoodLight2.setChecked(mIpclServer.mPlc.getModdLight_2());
+					Log.d("colin", "btnMoodLight2 is changing state.");
+				}
+			}
+	    	if (btnMoodLight3 != null)
+			{
+				if(btnMoodLight3.isChecked() != mIpclServer.mPlc.getModdLight_3()) {
+					btnMoodLight3.setChecked(mIpclServer.mPlc.getModdLight_3());
+					Log.d("colin", "btnMoodLight3 is changing state.");
+				}
+			}
+	    	if (btnReadLight1 != null)
+			{
+				if(btnReadLight1.isChecked() != mIpclServer.mPlc.getReadLight_1()) {
+					btnReadLight1.setChecked(mIpclServer.mPlc.getReadLight_1());
+					Log.d("colin", "btnReadLight1 is changing state.");
+				}
+			}
+	    	if (btnReadLight2 != null)
+			{
+				if(btnReadLight2.isChecked() != mIpclServer.mPlc.getReadLight_2()) {
+					btnReadLight2.setChecked(mIpclServer.mPlc.getReadLight_2());
+					Log.d("colin", "btnReadLight2 is changing state.");
+				}
+			}
+	    	if (btnReadLight3 != null)
+			{
+				if(btnReadLight3.isChecked() != mIpclServer.mPlc.getReadLight_3()) {
+					btnReadLight3.setChecked(mIpclServer.mPlc.getReadLight_3());
+					Log.d("colin", "btnReadLight3 is changing state.");
+				}
+			}
+	    	if (btnReadLight4 != null)
+			{
+				if(btnReadLight4.isChecked() != mIpclServer.mPlc.getReadLight_4()) {
+					btnReadLight4.setChecked(mIpclServer.mPlc.getReadLight_4());
+					Log.d("colin", "btnReadLight4 is changing state.");
+				}
+			}
+	    	
+
+
 	    	break;
+	    	
 		case SS_SYSTEM:
-			
+			Log.d("colin", "SS_SYSTEM is changing.");
 			break;
+			
 		case SS_DVD:
+			if(txtDirNo != null) {
+				txtDirNo.setText(mIpclServer.mDvd.getCurFolderNr() + "/" + mIpclServer.mDvd.getTotalFolderNr());
+			}
+			
+			if(txtDiscType != null) {
+				txtDiscType.setText("" + mIpclServer.mDvd.getDiscType());
+			}
+			
+			if(txtTrackNo != null) {
+				txtTrackNo.setText(mIpclServer.mDvd.getCurFileNr() + "/" + mIpclServer.mDvd.getTotalFileNr());
+			}
+			
+			if(txtFileName != null) {
+				txtFileName.setText("" + mIpclServer.mDvd.getText(mIpclServer.mDvd.TYPE_FILENAME));
+			}
+			
+			if(txtMode != null) {
+				txtMode.setText("Unkown");
+			}
+			
+			if(txtID3 != null) {
+				txtID3.setText("" + mIpclServer.mDvd.getText(mIpclServer.mDvd.TYPE_ID3_TITLE));
+			}
+			
+			if(txtPlayTime != null) {
+				txtPlayTime.setText(mIpclServer.mDvd.getHour() + ":" 
+									+ mIpclServer.mDvd.getMin() + ":"
+									+ mIpclServer.mDvd.getSec());
+			}
 			
 			break;
+			
 		case SS_AUDIO:
-			if(AudioSrc.DTV == mIpclServer.mAudio.getAudioSrc()) {
-				//if(DTV_switcher.isEnabled() != true) 
+			if((DVD_switcher != null) && (DTV_switcher != null)) {
+				if(AudioSrc.DTV == mIpclServer.mAudio.getAudioSrc())
 				{
 					Log.d("colin", "audio src is changing to DTV.");
 					DTV_switcher.setEnabled(true);
@@ -1119,24 +1328,47 @@ public final class TestFragment extends Fragment implements MessageListener{
 					DVD_switcher.setEnabled(false);
 					DVD_switcher.setImageResource(imgDVDOff);
 				}
-			}
-			else if (AudioSrc.DVD == mIpclServer.mAudio.getAudioSrc()) {
-				//if(DVD_switcher.isEnabled() != true) 
-				{
+				else if (AudioSrc.DVD == mIpclServer.mAudio.getAudioSrc()) {
+
 					Log.d("colin", "audio src is changing to DVD.");
 					DVD_switcher.setEnabled(true);
 					DVD_switcher.setImageResource(imgDVDOn);
 					
 					DTV_switcher.setEnabled(false);
 					DTV_switcher.setImageResource(imgDTVOff);
+
 				}
+				
 			}
+
 			else {
 				//error handling
 			}
 			
 			break;
 		
+		}
+	}
+	
+	public void check_null_pointer() {
+		if(btnTvSwtich == null) {
+			Log.e("colin", "btnTvSwtich from page_0 == null");
+		}
+		
+		if(curtain_switcher_1 == null) {
+			Log.e("colin", "curtain_switcher_1 from page_1 == null");
+		}
+		
+		if(btnCabinetLight == null) {
+			Log.e("colin", "btnCabinetLight from page_2 == null");
+		}
+		
+		if(Sunroof_switcher == null) {
+			Log.e("colin", "Sunroof_switcher from page_3 == null");
+		}
+		
+		if(btnUSB == null) {
+			Log.e("colin", "btnUSB from page_4 == null");
 		}
 	}
 	    

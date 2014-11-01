@@ -21,12 +21,14 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.gmc.motorhome.*;
+import com.gmc.motorhome.Audio.AudioSrc;		//for test
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class SampleTabsWithIcons extends FragmentActivity implements MessageListener{
 	
 	private MessageListener actMsgListener;
+	
 	public Ipcl mIpclServer;
 	
     private static final String[] CONTENT = new String[] { "主页", "窗帘", "灯光", "电器", "DVD"};
@@ -43,6 +45,10 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 	Timer timer = new Timer();
     private boolean IPCL_com_flag = false;
     private int heart_beat_lost_count = 0; 
+    static int temp_count = 0;
+    private boolean temp = false;
+    
+    
     TimerTask IPCL_timeout_task = new TimerTask() {
 		@Override
 		public void run() {
@@ -52,13 +58,20 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
+					
 					if(IPCL_com_flag == false) {
 						heart_beat_lost_count++;
 						Log.d("colin", "IPCL lost comm for " + heart_beat_lost_count + " seconds.");
+						
 					}
 					else {
 						IPCL_com_flag = false;
 						heart_beat_lost_count = 0;
+						temp_count++;
+						//if(temp_count%10 == 0) {
+						//	test_set();
+						//}
+						
 					}
 					
 					if(heart_beat_lost_count == 10) {
@@ -86,6 +99,8 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 		}
     	
     };
+
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +114,8 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 		mIpclServer = new Ipcl(this, handler);
 		mIpclServer.start(); 
 		timer.schedule(IPCL_timeout_task, 1000, 1000);
-
+		
+		mIpclServer.mAudio.setAudioSrc(AudioSrc.DTV);		//for test
         FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
         ViewPager pager = (ViewPager)findViewById(R.id.pager);
@@ -115,32 +131,40 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 			//System的心跳消息周期为1秒，如果10秒收不到任何消息视为通信中断，显示界面提示
 			IPCL_com_flag = true;
 			
-			if (msg.what == (int)mIpclServer.SS_PLC)
+			if (msg.what == (int)Ipcl.SS_PLC)
 			{
-				
 				Toast.makeText(SampleTabsWithIcons.this, "PLC state updated!", Toast.LENGTH_SHORT).show();
-				actMsgListener.syncView(actMsgListener.SS_PLC);
+				if (actMsgListener != null)
+				{
+					actMsgListener.syncView(MessageListener.SS_PLC);
+				}
 			}
 			
-			if (msg.what == (int)mIpclServer.SS_DVD)
+			if (msg.what == (int)Ipcl.SS_DVD)
 			{
-				
 				Toast.makeText(SampleTabsWithIcons.this, "DVD state updated!", Toast.LENGTH_SHORT).show();	
-				actMsgListener.syncView(actMsgListener.SS_DVD);
+				if (actMsgListener != null)
+				{
+					actMsgListener.syncView(MessageListener.SS_DVD);
+				}
 			}
 			
 			if (msg.what == (int)mIpclServer.SS_SYSTEM)
 			{
-				
 				Toast.makeText(SampleTabsWithIcons.this, "SYSTEM state updated!", Toast.LENGTH_SHORT).show();	
-				actMsgListener.syncView(actMsgListener.SS_SYSTEM);
+				if (actMsgListener != null)
+				{
+					actMsgListener.syncView(MessageListener.SS_SYSTEM);
+				}
 			}		
 			
 			if (msg.what == (int)mIpclServer.SS_AUDIO)
 			{
-				
 				Toast.makeText(SampleTabsWithIcons.this, "AUDIO state updated!", Toast.LENGTH_SHORT).show();	
-				actMsgListener.syncView(actMsgListener.SS_AUDIO);
+				if (actMsgListener != null)
+				{
+					actMsgListener.syncView(MessageListener.SS_AUDIO);
+				}
 			}			
 			
 		}
@@ -187,6 +211,7 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
     		Toast.makeText(SampleTabsWithIcons.this, "fragment has to finish the method.", Toast.LENGTH_SHORT).show();
     	}
     	
+    	
     	// TODO Auto-generated method stub
     	super.onAttachFragment(fragment); 
     }
@@ -223,6 +248,39 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 	public void syncView(int type) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	//for test
+	private void test_set() {
+		
+		
+		if(actMsgListener == null) {
+    		Log.e("colin", "actMsgListener is not instant.");
+    	}
+    	else {
+    		actMsgListener.syncView(actMsgListener.SS_AUDIO);
+    	}
+		if( temp == false ) {
+			mIpclServer.mAudio.setAudioSrc(AudioSrc.DVD);		
+	    	mIpclServer.mPlc.setTVPwr(true);
+	    	mIpclServer.mPlc.openShade_2();
+	    	mIpclServer.mPlc.closeShade_3();
+	    	mIpclServer.mPlc.setBarLight(true);
+	    	mIpclServer.mPlc.setReadLight_1(false);
+	    	Log.d("colin", "set tvPwr true and src to DVD");
+	    	temp = true;
+		}
+		else {
+			mIpclServer.mAudio.setAudioSrc(AudioSrc.DTV);		
+	    	mIpclServer.mPlc.setTVPwr(false);
+	    	mIpclServer.mPlc.closeShade_2();
+	    	mIpclServer.mPlc.openShade_3();
+	    	mIpclServer.mPlc.setBarLight(false);
+	    	mIpclServer.mPlc.setReadLight_1(true);
+	    	Log.d("colin", "set tvPwr false and src to DTV");
+	    	temp = false;
+		}
+    	
 	}
     
 

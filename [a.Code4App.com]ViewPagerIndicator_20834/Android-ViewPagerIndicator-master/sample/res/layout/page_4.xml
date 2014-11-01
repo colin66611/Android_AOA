@@ -92,7 +92,7 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="Dir No" />
+                android:text="@string/dir_no" />
             <TextView
                 android:id="@+id/txt_disc_type"
                 android:layout_width="150dp"
@@ -100,7 +100,7 @@
                 android:layout_marginLeft="300dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="Disc Type" />
+                android:text="@string/disc_type" />
             
         </LinearLayout>
         
@@ -115,7 +115,7 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="Track No" />
+                android:text="@string/track_no" />
             <TextView
                 android:id="@+id/txt_file_name"
                 android:layout_width="150dp"
@@ -123,15 +123,20 @@
                 android:layout_marginLeft="75dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="File Name" />
+                android:text="@string/file_name" />
             <TextView
                 android:id="@+id/txt_mode"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="75dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="Mode" />
+                android:text="@string/mode" />
             
         </LinearLayout>
         
@@ -148,7 +153,7 @@
                 android:layout_marginLeft="225dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="ID3" />
+                android:text="@string/id3" />
             
         </LinearLayout>
         
@@ -165,7 +170,7 @@
                 android:layout_marginLeft="225dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:text="Play Time" />
+                android:text="@string/play_time" />
             
         </LinearLayout>
         

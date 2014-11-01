@@ -77,7 +77,7 @@ public class Plc {
 		
 		if ((devName >= DEV_TV_UP) && (devName <= DEV_SUNROOF_CLOSE))
 		{
-			if ((mDevStatus & ((int)1 << devName)) != 0)
+			if ((mDevStatus & ((int)1 << (devName - 1))) != 0)
 			{
 				bRes = true;
 			}
@@ -188,8 +188,10 @@ public
 	
 	public boolean setTVPwr(boolean bOn)
 	{
+		boolean state = false;
 		setDevState(DEV_TV_PWR, bOn);
-		return (setBatchState(mDevStatus));			
+		state = setBatchState(mDevStatus);
+		return state;			
 	}
 	
 	public boolean getTVPwr()
@@ -317,7 +319,7 @@ public
 		return (setBatchState(mDevStatus));			
 	}
 	
-	public boolean getReadLight_1(boolean bOn)
+	public boolean getReadLight_1()
 	{
 		return (getDevState(DEV_READLIGHT_1_PWR));		
 	}
@@ -328,7 +330,7 @@ public
 		return (setBatchState(mDevStatus));	
 	}
 	
-	public boolean getReadLight_2(boolean bOn)
+	public boolean getReadLight_2()
 	{
 		return (getDevState(DEV_READLIGHT_2_PWR));		
 	}
@@ -339,7 +341,7 @@ public
 		return (setBatchState(mDevStatus));			
 	}
 	
-	public boolean getReadLight_3(boolean bOn)
+	public boolean getReadLight_3()
 	{
 		return (getDevState(DEV_READLIGHT_3_PWR));		
 	}
@@ -350,7 +352,7 @@ public
 		return (setBatchState(mDevStatus));			
 	}
 	
-	public boolean getReadLight_4(boolean bOn)
+	public boolean getReadLight_4()
 	{
 		return (getDevState(DEV_READLIGHT_4_PWR));		
 	}
