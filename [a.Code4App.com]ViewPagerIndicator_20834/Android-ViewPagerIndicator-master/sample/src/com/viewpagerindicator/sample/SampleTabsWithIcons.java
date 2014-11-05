@@ -31,13 +31,13 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 	
 	public Ipcl mIpclServer;
 	
-    private static final String[] CONTENT = new String[] { "Ö÷Ò³", "´°Á±", "µÆ¹â", "µçÆ÷", "DVD"};
+    private static final String[] CONTENT = new String[] { "SCREEN", "LIGHT", "SHADE", "ELECTRIC", "DVD"};
     private static final int[] ICONS = new int[] {
-            R.drawable.perm_group_calendar,
-            R.drawable.perm_group_camera,
-            R.drawable.perm_group_device_alarms,
-            R.drawable.perm_group_location,
-            R.drawable.perm_group_location,
+            R.drawable.perm_group_screen,
+            R.drawable.perm_group_light,
+            R.drawable.perm_group_shade,
+            R.drawable.perm_group_electronic,
+            R.drawable.perm_group_dvd,
     };
     
     
@@ -265,7 +265,7 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 	    	mIpclServer.mPlc.setTVPwr(true);
 	    	mIpclServer.mPlc.openShade_2();
 	    	mIpclServer.mPlc.closeShade_3();
-	    	mIpclServer.mPlc.setBarLight(true);
+	    	//mIpclServer.mPlc.setBarLight(true);
 	    	mIpclServer.mPlc.setReadLight_1(false);
 	    	Log.d("colin", "set tvPwr true and src to DVD");
 	    	temp = true;
@@ -275,7 +275,7 @@ public class SampleTabsWithIcons extends FragmentActivity implements MessageList
 	    	mIpclServer.mPlc.setTVPwr(false);
 	    	mIpclServer.mPlc.closeShade_2();
 	    	mIpclServer.mPlc.openShade_3();
-	    	mIpclServer.mPlc.setBarLight(false);
+	    	//mIpclServer.mPlc.setBarLight(false);
 	    	mIpclServer.mPlc.setReadLight_1(true);
 	    	Log.d("colin", "set tvPwr false and src to DTV");
 	    	temp = false;

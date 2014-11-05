@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dir_no"> DIR NO </string>
+    <string name="disc_type"> DISC TYPE </string>
+    <string name="track_no"> TRACK NO </string>
+    <string name="file_name"> FILE NAME </string>
+    <string name="mode"> MODE </string>
+    <string name="id3"> ID3 </string>
+    <string name="play_time"> 00:00:00 </string>
+</resources>

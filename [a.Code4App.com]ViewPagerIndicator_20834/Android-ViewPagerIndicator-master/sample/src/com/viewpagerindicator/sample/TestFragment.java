@@ -9,8 +9,11 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -43,14 +46,16 @@ public final class TestFragment extends Fragment implements MessageListener{
     
     private SampleTabsWithIcons temp_view;
     
+    private Animation Anim_Alpha;
+    
     /* these views are for fragment page_0*/
-    static private ToggleButton btnTvSwtich;
-    static private ToggleButton btnGlassChange;
+    static private ImageView btnTvSwtich;
+    static private ImageView btnGlassChange;
     static private Button btnLanguage;
-    static private Button btnTvUp;
-    static private Button btnGlassUp;
-    static private Button btnTvDown;
-    static private Button btnGlassDown;
+    static private ImageView btnTvUp;
+    static private ImageView btnGlassUp;
+    static private ImageView btnTvDown;
+    static private ImageView btnGlassDown;
     
     /* these views are for fragment page_1*/
     static private ImageSwitcher curtain_switcher_1;
@@ -252,96 +257,156 @@ public final class TestFragment extends Fragment implements MessageListener{
     	   	
     	
     	
-    	btnLanguage = (Button) view.findViewById(R.id.btn_language);
-    	btnTvUp = (Button) view.findViewById(R.id.btn_TV_up);
-    	btnGlassUp = (Button) view.findViewById(R.id.btn_glass_up);
-    	btnTvDown = (Button) view.findViewById(R.id.btn_TV_down);
-    	btnGlassDown = (Button) view.findViewById(R.id.btn_glass_down);
+    	//btnLanguage = (Button) view.findViewById(R.id.btn_language);
+    	btnTvUp = (ImageView) view.findViewById(R.id.btn_TV_up);
+    	btnGlassUp = (ImageView) view.findViewById(R.id.btn_glass_up);
+    	btnTvDown = (ImageView) view.findViewById(R.id.btn_TV_down);
+    	btnGlassDown = (ImageView) view.findViewById(R.id.btn_glass_down);
     	
     	initial_view(SS_PLC);
     	
-    	btnTvSwtich = (ToggleButton) view.findViewById(R.id.btn_TV_swtich);
-    	btnGlassChange = (ToggleButton) view.findViewById(R.id.btn_glass_change);
+    	btnTvSwtich = (ImageView) view.findViewById(R.id.btn_TV_swtich);
+    	btnGlassChange = (ImageView) view.findViewById(R.id.btn_glass_change);
     		
     	
-    	btnLanguage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
-			}
-		});
+//    	btnLanguage.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Toast.makeText(getActivity(), "btnLanguage.", Toast.LENGTH_SHORT).show();
+//			}
+//		});
     	
-    	btnTvUp.setOnClickListener(new View.OnClickListener() {
+    	btnTvUp.setOnTouchListener(new View.OnTouchListener() {
 			
-			@Override
-			public void onClick(View v) {
-				
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				mIpclServer.mPlc.setTVUp();
-			}
-		});
-    	
-    	btnGlassUp.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				mIpclServer.mPlc.setGlassUp();
-			}
-		});
-    	
-    	btnTvSwtich.setOnCheckedChangeListener(new OnCheckedChangeListener() {
     		@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    			if(isChecked) {
-    				//if the toggle is checked by code, this statement will also come out
-					Toast.makeText(getActivity(), "btnTvOn.", Toast.LENGTH_SHORT).show();	
-					mIpclServer.mPlc.setTVPwr(true);
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				// TODO Auto-generated method stub
+				if (arg1.getAction() == MotionEvent.ACTION_DOWN)
+				{
+					btnTvUp.setImageAlpha(100);
+					Toast.makeText(getActivity(), "µÁ ”…œ…˝°£°£°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTVUp();					
 				}
-				else {
-					Toast.makeText(getActivity(), "btnTvOff.", Toast.LENGTH_SHORT).show();
+				
+				if (arg1.getAction()  == MotionEvent.ACTION_UP)
+				{
+					btnTvUp.setImageAlpha(255);
+					Toast.makeText(getActivity(), "µÁ ”æ≤÷π°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTVStop();	
+				}
+				return true;
+			}
+
+		});
+    	
+    	btnGlassUp.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				// TODO Auto-generated method stub
+				if (arg1.getAction() == MotionEvent.ACTION_DOWN)
+				{
+					btnTvUp.setImageAlpha(100);
+					Toast.makeText(getActivity(), "ÀΩ√‹≤£¡ß…œ…˝°£°£°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setGlassUp();					
+				}
+				
+				if (arg1.getAction()  == MotionEvent.ACTION_UP)
+				{
+					btnTvUp.setImageAlpha(255);
+					Toast.makeText(getActivity(), "ÀΩ√‹≤£¡ßæ≤÷π°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setGlassStop();	
+				}				
+				return true;
+			}
+		});
+    	
+    	btnTvSwtich.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Anim_Alpha = AnimationUtils.loadAnimation(getActivity(), R.xml.alpha_action);  
+				v.startAnimation(Anim_Alpha); 
+				if(true == mIpclServer.mPlc.getTVPwr()) {
+					Toast.makeText(getActivity(), "πÿ±’µÁ ”.", Toast.LENGTH_SHORT).show();
 					mIpclServer.mPlc.setTVPwr(false);
 				}
-    		}
+				else {
+					Toast.makeText(getActivity(), "¥Úø™µÁ ”.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTVPwr(true);
+				}
+				
+			}
+    		
     	});
-
     	
-    	btnGlassChange.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnGlassChange.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    			if(isChecked) {
-					Toast.makeText(getActivity(), "btnGlassChangeOn.", Toast.LENGTH_SHORT).show();
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Anim_Alpha = AnimationUtils.loadAnimation(getActivity(), R.xml.alpha_action);  
+				v.startAnimation(Anim_Alpha); 
+				if(true == mIpclServer.mPlc.getGlassPwr()) {
+					Toast.makeText(getActivity(), "πÿ±’≤£¡ßŒÌªØ.", Toast.LENGTH_SHORT).show();
 					mIpclServer.mPlc.setGlassPwr(true);
 				}
 				else {
-					Toast.makeText(getActivity(), "btnGlassChangeOff.", Toast.LENGTH_SHORT).show();
-					mIpclServer.mPlc.setGlassPwr(false);
+					Toast.makeText(getActivity(), "≤£¡ßŒÌªØ.", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setGlassPwr(true);
 				}
+				
+			}
+    		
+    	});
+
+   	
+    	btnTvDown.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				// TODO Auto-generated method stub
+				if (arg1.getAction() == MotionEvent.ACTION_DOWN)
+				{
+					btnTvUp.setImageAlpha(100);
+					Toast.makeText(getActivity(), "µÁ ”œ¬Ωµ°£°£°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTVDown();					
+				}
+				
+				if (arg1.getAction()  == MotionEvent.ACTION_UP)
+				{
+					btnTvUp.setImageAlpha(255);
+					Toast.makeText(getActivity(), "µÁ ”æ≤÷π°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setTVStop();	
+				}
+				
+				return true;
 			}
 		});
     	
-    	btnTvDown.setOnClickListener(new View.OnClickListener() {
+    	btnGlassDown.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View arg0, MotionEvent arg1) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				mIpclServer.mPlc.setTVDown();
-			}
-		});
-    	
-    	btnGlassDown.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "btnTvUp.", Toast.LENGTH_SHORT).show();
-				mIpclServer.mPlc.setGlassDown();
+				if (arg1.getAction() == MotionEvent.ACTION_DOWN)
+				{
+					btnTvUp.setImageAlpha(100);
+					Toast.makeText(getActivity(), "ÀΩ√‹≤£¡ßœ¬Ωµ°£°£°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setGlassDown();					
+				}
+				
+				if (arg1.getAction()  == MotionEvent.ACTION_UP)
+				{
+					btnTvUp.setImageAlpha(255);
+					Toast.makeText(getActivity(), "ÀΩ√‹≤£¡ßæ≤÷π°£", Toast.LENGTH_SHORT).show();
+					mIpclServer.mPlc.setGlassStop();	
+				}				
+
+				return true;
 			}
 		});
     	
@@ -525,153 +590,177 @@ public final class TestFragment extends Fragment implements MessageListener{
     	btnReadLight3 = (ToggleButton) view.findViewById(R.id.btn_read_light_3);
     	btnReadLight4 = (ToggleButton) view.findViewById(R.id.btn_read_light_4);
     	
-    	
-    	
-    	btnCabinetLight.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnCabinetLight.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnCabinetLight.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnCabinetLight.", Toast.LENGTH_SHORT).show();
-					check_null_pointer();
-					mIpclServer.mPlc.setBarLight(true);
+					btnCabinetLight.setChecked(true);
+					mIpclServer.mPlc.openBar();
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnCabinetLight.", Toast.LENGTH_SHORT).show();
-					check_null_pointer();
-					mIpclServer.mPlc.setBarLight(false);
+					btnCabinetLight.setChecked(false);
+					mIpclServer.mPlc.closeBar();
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnTopLight.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnTopLight.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnTopLight.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnTopLight.", Toast.LENGTH_SHORT).show();
-					mIpclServer.mPlc.setTopLight(true);
+					btnTopLight.setChecked(true);
+					mIpclServer.mPlc.setMoodLight_1(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnTopLight.", Toast.LENGTH_SHORT).show();
-					mIpclServer.mPlc.setTopLight(false);
+					btnTopLight.setChecked(false);
+					mIpclServer.mPlc.setMoodLight_1(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnMoodLight1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnMoodLight1.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnMoodLight1.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnMoodLight1.", Toast.LENGTH_SHORT).show();
+					btnMoodLight1.setChecked(true);
 					mIpclServer.mPlc.setMoodLight_1(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnMoodLight1.", Toast.LENGTH_SHORT).show();
+					btnMoodLight1.setChecked(false);
 					mIpclServer.mPlc.setMoodLight_1(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnMoodLight2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnMoodLight2.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnMoodLight2.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnMoodLight2.", Toast.LENGTH_SHORT).show();
+					btnMoodLight2.setChecked(true);
 					mIpclServer.mPlc.setMoodLight_2(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnMoodLight2.", Toast.LENGTH_SHORT).show();
+					btnMoodLight2.setChecked(false);
 					mIpclServer.mPlc.setMoodLight_2(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnMoodLight3.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnMoodLight3.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnMoodLight3.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnMoodLight3.", Toast.LENGTH_SHORT).show();
+					btnMoodLight3.setChecked(true);
 					mIpclServer.mPlc.setMoodLight_3(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnMoodLight3.", Toast.LENGTH_SHORT).show();
+					btnMoodLight3.setChecked(false);
 					mIpclServer.mPlc.setMoodLight_3(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnReadLight1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnReadLight1.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnReadLight1.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnReadLight1.", Toast.LENGTH_SHORT).show();
+					btnReadLight1.setChecked(true);
 					mIpclServer.mPlc.setReadLight_1(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnReadLight1.", Toast.LENGTH_SHORT).show();
+					btnReadLight1.setChecked(false);
 					mIpclServer.mPlc.setReadLight_1(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnReadLight2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnReadLight2.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnReadLight2.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnReadLight2.", Toast.LENGTH_SHORT).show();
+					btnReadLight2.setChecked(true);
 					mIpclServer.mPlc.setReadLight_2(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnReadLight2.", Toast.LENGTH_SHORT).show();
+					btnReadLight2.setChecked(false);
 					mIpclServer.mPlc.setReadLight_2(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnReadLight3.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnReadLight3.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnReadLight3.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnReadLight3.", Toast.LENGTH_SHORT).show();
+					btnReadLight3.setChecked(true);
 					mIpclServer.mPlc.setReadLight_3(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnReadLight3.", Toast.LENGTH_SHORT).show();
+					btnReadLight3.setChecked(false);
 					mIpclServer.mPlc.setReadLight_3(false);
 				}
 			}
-		});
+    		
+    	});
     	
-    	btnReadLight4.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+    	btnReadLight4.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked) {
+				if(btnReadLight4.isChecked() == true) {
 					Toast.makeText(getActivity(), "open btnReadLight4.", Toast.LENGTH_SHORT).show();
+					btnReadLight4.setChecked(true);
 					mIpclServer.mPlc.setReadLight_4(true);
 				}
 				else {
 					Toast.makeText(getActivity(), "close btnReadLight4.", Toast.LENGTH_SHORT).show();
+					btnReadLight4.setChecked(false);
 					mIpclServer.mPlc.setReadLight_4(false);
 				}
 			}
-		});
+    		
+    	});
+
     	
     	initial_view(SS_PLC);
     	
@@ -1138,12 +1227,11 @@ public final class TestFragment extends Fragment implements MessageListener{
 			//after getting the widgets, we have to initial their state
 			if (btnTvSwtich != null)
 			{
-				if(btnTvSwtich.isChecked() != mIpclServer.mPlc.getTVPwr()) {
-					btnTvSwtich.setChecked(mIpclServer.mPlc.getTVPwr());
+				if(true == mIpclServer.mPlc.getTVPwr()) {
+					btnTvSwtich.setImageDrawable(getResources().getDrawable(R.drawable.tv_on));
 				}
 				else {
-					mIpclServer.mPlc.getTVPwr();
-					Log.d("colin", "btnTvSwtich.isChecked() is "+ btnTvSwtich.isChecked() + "; while get getTVPwr is " + mIpclServer.mPlc.getTVPwr());
+					btnTvSwtich.setImageDrawable(getResources().getDrawable(R.drawable.tv_off));
 				}
 			}
 			else {
@@ -1153,8 +1241,11 @@ public final class TestFragment extends Fragment implements MessageListener{
 	    	
 			if(btnGlassChange != null)
 			{
-				if(btnGlassChange.isChecked() != mIpclServer.mPlc.getGlassPwr()) {
-					btnGlassChange.setChecked(mIpclServer.mPlc.getGlassPwr());
+				if(true == mIpclServer.mPlc.getGlassPwr()) {
+					btnTvSwtich.setImageDrawable(getResources().getDrawable(R.drawable.glass_change));
+				}
+				else {
+					btnTvSwtich.setImageDrawable(getResources().getDrawable(R.drawable.glass_recover));
 				}
 			}
 			
@@ -1214,15 +1305,15 @@ public final class TestFragment extends Fragment implements MessageListener{
 	    	
 	    	if (btnCabinetLight != null)
 			{
-				if(btnCabinetLight.isChecked() != mIpclServer.mPlc.getBarLight()) {
-					btnCabinetLight.setChecked(mIpclServer.mPlc.getBarLight());
+				if(btnCabinetLight.isChecked() != mIpclServer.mPlc.getBarOpenState()) {
+					btnCabinetLight.setChecked(mIpclServer.mPlc.getBarOpenState());
 					Log.d("colin", "btnCabinetLight is changing state.");
 				}
 			}
 	    	if (btnTopLight != null)
 			{
-				if(btnTopLight.isChecked() != mIpclServer.mPlc.getTopLight()) {
-					btnTopLight.setChecked(mIpclServer.mPlc.getTopLight());
+				if(btnTopLight.isChecked() != mIpclServer.mPlc.getModdLight_1()) {
+					btnTopLight.setChecked(mIpclServer.mPlc.getModdLight_1());
 					Log.d("colin", "btnTopLight is changing state.");
 				}
 			}

@@ -17,35 +17,43 @@ public class Plc {
 	
 	
 	/* Device name definition */
-	public final byte DEV_NAME_MIN			= 0;
-	public final byte DEV_TV_UP			= 1;
+	public final byte DEV_NAME_MIN			= 0;	
+	public final byte DEV_TV_UP 			= 1;
 	public final byte DEV_TV_DOWN			= 2;
 	public final byte DEV_TV_PWR			= 3;
-	public final byte DEV_GLASS_PWR		= 4;
+	public final byte DEV_GLASS_PWR			= 4;
 	public final byte DEV_GLASS_UP			= 5;
 	public final byte DEV_GLASS_DOWN		= 6;
 	public final byte DEV_SUNROOF_OPEN		= 7;
-	public final byte DEV_SUNROOF_CLOSE	= 8;
+	public final byte DEV_SUNROOF_CLOSE		= 8;
 	public final byte DEV_PC_PWR			= 9;
-	public final byte DEV_MOODLIGHT_1_PWR	= 10;
+	public final byte DEV_MOODLIGHT_1_PWR	= 10;		//top light
 	public final byte DEV_MOODLIGHT_2_PWR	= 11;
 	public final byte DEV_MOODLIGHT_3_PWR	= 12;
-	public final byte DEV_BARLIGHT_PWR		= 13;
-	public final byte DEV_TOPLIGHT_PWR		= 14;
-	public final byte DEV_READLIGHT_1_PWR	= 15;
-	public final byte DEV_READLIGHT_2_PWR	= 16;
-	public final byte DEV_READLIGHT_3_PWR	= 17;
-	public final byte DEV_READLIGHT_4_PWR	= 18;
-	public final byte DEV_SHADE_1_OPEN		= 19;
-	public final byte DEV_SHADE_1_CLOSE	= 20;
-	public final byte DEV_SHADE_2_OPEN		= 21;
-	public final byte DEV_SHADE_2_CLOSE	= 22;
-	public final byte DEV_SHADE_3_OPEN		= 23;
-	public final byte DEV_SHADE_3_CLOSE	= 24;
-	public final byte DEV_SHADE_4_OPEN		= 25;
-	public final byte DEV_SHADE_4_CLOSE	= 26;
-	public final byte DEV_NAME_MAX			= 27;
+	public final byte DEV_READLIGHT_1_PWR	= 13;
+	public final byte DEV_READLIGHT_2_PWR	= 14;
+	public final byte DEV_READLIGHT_3_PWR	= 15;
+	public final byte DEV_READLIGHT_4_PWR	= 16;
+	public final byte DEV_SHADE_1_OPEN		= 17;
+	public final byte DEV_SHADE_1_CLOSE		= 18;
+	public final byte DEV_SHADE_2_OPEN		= 19;
+	public final byte DEV_SHADE_2_CLOSE		= 20;
+	public final byte DEV_SHADE_3_OPEN		= 21;
+	public final byte DEV_SHADE_3_CLOSE		= 22;
+	public final byte DEV_SHADE_4_OPEN		= 23;
+	public final byte DEV_SHADE_4_CLOSE		= 24;
+	public final byte DEV_MOODLIGHT_4_PWR	= 25;
 	
+	public final byte DEV_RESERVE			= 26;
+	
+	public final byte DEV_BAR_OPEN			= 27;
+	public final byte DEV_BAR_CLOSE			= 28;
+	
+	public final byte DEV_CURAIN_LIGHT_LF	= 29;
+	public final byte DEV_CURAIN_LIGHT_LR	= 30;
+	public final byte DEV_CURAIN_LIGHT_RF	= 31;
+	public final byte DEV_CURAIN_LIGHT_RR	= 32;
+	public final byte DEV_NAME_MAX			= 33;		
 
 
 	public boolean setDevState(byte devName, boolean devState)
@@ -75,7 +83,7 @@ public class Plc {
 	{
 		boolean bRes = false;
 		
-		if ((devName >= DEV_TV_UP) && (devName <= DEV_SUNROOF_CLOSE))
+		if ((devName > DEV_NAME_MIN) && (devName < DEV_NAME_MAX))
 		{
 			if ((mDevStatus & ((int)1 << (devName - 1))) != 0)
 			{
@@ -100,7 +108,7 @@ public class Plc {
 			payload[3] = (byte)((batch_state >> 8) & 0xFF);
 			payload[4] = (byte)(batch_state & 0xFF);
 			
-			mIpcl.sendMsg(mIpcl.SS_PLC, payload);
+			mIpcl.sendMsg(Ipcl.SS_PLC, payload);
 			bRes = true;
 		}
 		
@@ -112,45 +120,8 @@ public class Plc {
 		return mDevStatus;
 	}
 	
-	public boolean setPlcDev(byte dev_name, boolean bEn)
-	{
-		boolean bRes = false;
-		
-		if ((dev_name > DEV_NAME_MIN) && (dev_name < DEV_NAME_MAX))
-		{
-			if (bEn == true)
-			{
-				mDevStatus |= (int)1 << dev_name;
-			}
-			else
-			{
-				mDevStatus &= ~((int)1 << dev_name);
-			}
-			setBatchState(mDevStatus);
-		}
-		
-		return bRes;
-	}
 	
-	public boolean getPlcDev(byte dev_name)
-	{
-		boolean bRes = false;
-		
-		if ((dev_name > DEV_NAME_MIN) && (dev_name < DEV_NAME_MAX))
-		{
-			if ((mDevStatus & ((int)1 << dev_name)) != 0)
-			{
-				bRes = true;
-			}
-		}
-		
-		return bRes;
-	}
-	
-
-public
-
-	Plc(Ipcl ipcl)
+	public Plc(Ipcl ipcl)
 	{
 
 		mIpcl = ipcl;
@@ -176,6 +147,14 @@ public
 		return (setBatchState(mDevStatus));	
 	}
 	
+	public boolean setTVStop()
+	{
+		setDevState(DEV_TV_UP, false);
+		setDevState(DEV_TV_DOWN, false);
+		
+		return (setBatchState(mDevStatus));	
+	}
+	
 	public boolean getTVUp()
 	{
 		return (getDevState(DEV_TV_UP));
@@ -188,10 +167,8 @@ public
 	
 	public boolean setTVPwr(boolean bOn)
 	{
-		boolean state = false;
 		setDevState(DEV_TV_PWR, bOn);
-		state = setBatchState(mDevStatus);
-		return state;			
+		return (setBatchState(mDevStatus));			
 	}
 	
 	public boolean getTVPwr()
@@ -226,6 +203,14 @@ public
 		return (setBatchState(mDevStatus));		
 	}
 	
+	public boolean setGlassStop()
+	{
+		setDevState(DEV_GLASS_UP, false);
+		setDevState(DEV_GLASS_DOWN, false);
+		
+		return (setBatchState(mDevStatus));			
+	}
+	
 	public boolean openSunroof()
 	{
 		setDevState(DEV_SUNROOF_OPEN, true);
@@ -238,6 +223,13 @@ public
 	{
 		setDevState(DEV_SUNROOF_OPEN, false);		
 		setDevState(DEV_SUNROOF_CLOSE, true);
+		return (setBatchState(mDevStatus));		
+	}
+	
+	public boolean stopSunroof()
+	{
+		setDevState(DEV_SUNROOF_OPEN, false);		
+		setDevState(DEV_SUNROOF_CLOSE, false);
 		return (setBatchState(mDevStatus));		
 	}
 	
@@ -290,28 +282,62 @@ public
 	{
 		return (getDevState(DEV_MOODLIGHT_3_PWR));		
 	}
-	
-	public boolean setBarLight(boolean bOn)
+
+	public boolean setMoodLight_4(boolean bOn)
 	{
-		setDevState(DEV_BARLIGHT_PWR, bOn);
-		return (setBatchState(mDevStatus));	
-	}
-	
-	public boolean getBarLight()
-	{
-		return (getDevState(DEV_BARLIGHT_PWR));
-	}
-	
-	public boolean setTopLight(boolean bOn)
-	{
-		setDevState(DEV_TOPLIGHT_PWR, bOn);
+		setDevState(DEV_MOODLIGHT_4_PWR, bOn);	
 		return (setBatchState(mDevStatus));			
 	}
 	
-	public boolean getTopLight()
+	public boolean getModdLight_4()
 	{
-		return (getDevState(DEV_TOPLIGHT_PWR));
+		return (getDevState(DEV_MOODLIGHT_4_PWR));		
 	}
+	
+	public boolean setCurtainLight_lf(boolean bOn)
+	{
+		setDevState(DEV_CURAIN_LIGHT_LF, bOn);		
+		return (setBatchState(mDevStatus));			
+	}
+	
+	public boolean getCurtainLight_lf()
+	{
+		return (getDevState(DEV_CURAIN_LIGHT_LF));		
+	}
+	
+	public boolean setCurtainLight_lr(boolean bOn)
+	{
+		setDevState(DEV_CURAIN_LIGHT_LR, bOn);		
+		return (setBatchState(mDevStatus));			
+	}
+	
+	public boolean getCurtainLight_lr()
+	{
+		return (getDevState(DEV_CURAIN_LIGHT_LR));		
+	}	
+	
+	public boolean setCurtainLight_rf(boolean bOn)
+	{
+		setDevState(DEV_CURAIN_LIGHT_RF, bOn);		
+		return (setBatchState(mDevStatus));			
+	}
+	
+	public boolean getCurtainLight_rf()
+	{
+		return (getDevState(DEV_CURAIN_LIGHT_RF));		
+	}		
+	
+	public boolean setCurtainLight_rr(boolean bOn)
+	{
+		setDevState(DEV_CURAIN_LIGHT_RR, bOn);		
+		return (setBatchState(mDevStatus));			
+	}
+	
+	public boolean getCurtainLight_rr()
+	{
+		return (getDevState(DEV_CURAIN_LIGHT_RR));		
+	}
+	
 	
 	public boolean setReadLight_1(boolean bOn)
 	{
@@ -384,6 +410,14 @@ public
 		return (getDevState(DEV_SHADE_1_OPEN));
 	}
 	
+	public boolean stopShade_1()
+	{
+		setDevState(DEV_SHADE_1_OPEN, false);		
+		setDevState(DEV_SHADE_1_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));	
+	}
+	
 	public boolean openShade_2()
 	{
 		setDevState(DEV_SHADE_2_OPEN, true);
@@ -410,6 +444,14 @@ public
 		return (getDevState(DEV_SHADE_2_OPEN));
 	}
 	
+	public boolean stopShade_2()
+	{
+		setDevState(DEV_SHADE_2_OPEN, false);		
+		setDevState(DEV_SHADE_2_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));	
+	}
+	
 	public boolean openShade_3()
 	{
 		setDevState(DEV_SHADE_3_OPEN, true);
@@ -434,6 +476,14 @@ public
 	public boolean getShadeCloseState_3()
 	{
 		return (getDevState(DEV_SHADE_3_OPEN));
+	}
+
+	public boolean stopShade_3()
+	{
+		setDevState(DEV_SHADE_3_OPEN, false);		
+		setDevState(DEV_SHADE_3_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));	
 	}
 	
 	public boolean openShade_4()
@@ -462,7 +512,47 @@ public
 		return (getDevState(DEV_SHADE_4_OPEN));
 	}
 	
+	public boolean stopShade_4()
+	{
+		setDevState(DEV_SHADE_4_OPEN, false);		
+		setDevState(DEV_SHADE_4_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));	
+	}	
 
+	public boolean openBar()
+	{
+		setDevState(DEV_BAR_OPEN, true);
+		setDevState(DEV_BAR_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));			
+	}
+	
+	public boolean getBarOpenState()
+	{
+		return (getDevState(DEV_BAR_OPEN));
+	}
+	
+	public boolean closeBar()
+	{
+		setDevState(DEV_BAR_OPEN, false);
+		setDevState(DEV_BAR_CLOSE, true);
+		
+		return (setBatchState(mDevStatus));	
+	}
+	
+	public boolean getBarCloseState()
+	{
+		return (getDevState(DEV_BAR_CLOSE));
+	}
+	
+	public boolean stopBar()
+	{
+		setDevState(DEV_BAR_OPEN, false);
+		setDevState(DEV_BAR_CLOSE, false);
+		
+		return (setBatchState(mDevStatus));	
+	}
 	
 	public boolean notificationCallback(byte[] msg)
 	{
@@ -487,7 +577,6 @@ public
 						bRes = true;
 					}
 				}
-				bRes = true;
 				break;
 				
 			case PLC_API_RESP_DEV_STATE:

@@ -324,7 +324,7 @@ public class FT311UARTInterface extends Activity
 				{
 					try 
 					{
-						Thread.sleep(100);
+						Thread.sleep(50);
 					}
 					catch (InterruptedException e) 
 					{

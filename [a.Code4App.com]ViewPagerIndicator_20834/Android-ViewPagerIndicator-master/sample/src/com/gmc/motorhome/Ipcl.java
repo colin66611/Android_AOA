@@ -159,20 +159,20 @@ public class Ipcl extends Thread{
 		
 		while (true) {
 		
-//			if (mUartAgent.readDataBlocked(tempBuff, 1) == 1)
-//			{/* read new byte */
-//				//logWindow.append(Byte.toString(tempBuff[0]));
-//
-//				m_rxPool.msg[m_rxPool.tail] = tempBuff[0];
-//				m_rxPool.tail = (m_rxPool.tail + 1) % IPCL_RX_POOL_SIZE;
-//				if ( m_rxPool.tail == m_rxPool.head )
-//				{/* overflow, reject 1st byte */
-//					m_rxPool.head = (m_rxPool.head + 1) % IPCL_RX_POOL_SIZE;
-//					//printf("Rx buffer overflow!\n");
-//				}
-//				
-//				MsgUppacket();	
-//			}
+			if (mUartAgent.readDataBlocked(tempBuff, 1) == 1)
+			{/* read new byte */
+				//logWindow.append(Byte.toString(tempBuff[0]));
+
+				m_rxPool.msg[m_rxPool.tail] = tempBuff[0];
+				m_rxPool.tail = (m_rxPool.tail + 1) % IPCL_RX_POOL_SIZE;
+				if ( m_rxPool.tail == m_rxPool.head )
+				{/* overflow, reject 1st byte */
+					m_rxPool.head = (m_rxPool.head + 1) % IPCL_RX_POOL_SIZE;
+					//printf("Rx buffer overflow!\n");
+				}
+				
+				MsgUppacket();	
+			}
 			
 			
 //			{
@@ -185,21 +185,21 @@ public class Ipcl extends Thread{
 //				dispatchMsg(ipcl_msg);
 //			}
 			
-			{
-				Message UImsg;
-				
-				UImsg = mTargetHandler.obtainMessage((int)SS_PLC);
-				mTargetHandler.sendMessage(UImsg);				
-			}			
-			
-			try 
-			{
-				Thread.sleep(1000);
-			}
-			catch (InterruptedException e) 
-			{
-				e.printStackTrace();
-			}						
+//			{
+//				Message UImsg;
+//				
+//				UImsg = mTargetHandler.obtainMessage((int)SS_PLC);
+//				mTargetHandler.sendMessage(UImsg);				
+//			}			
+//			
+//			try 
+//			{
+//				Thread.sleep(10000);
+//			}
+//			catch (InterruptedException e) 
+//			{
+//				e.printStackTrace();
+//			}						
 		}
 	}
 	
@@ -376,6 +376,7 @@ public class Ipcl extends Thread{
 			switch (ipcl_frame[4])
 			{
 			case SS_SYSTEM:
+
 				if (mSystem.notificationCallback(msg) == true)
 				{
 					Message UImsg;
@@ -387,12 +388,15 @@ public class Ipcl extends Thread{
 				break;
 				
 			case SS_PLC:
-				if (mPlc.notificationCallback(msg) == true)
+				synchronized(mSystem)
 				{
-					Message UImsg;
-					
-					UImsg = mTargetHandler.obtainMessage((int)SS_PLC);
-					mTargetHandler.sendMessage(UImsg);				
+					if (mPlc.notificationCallback(msg) == true)
+					{
+						Message UImsg;
+						
+						UImsg = mTargetHandler.obtainMessage((int)SS_PLC);
+						mTargetHandler.sendMessage(UImsg);				
+					}
 				}
 				break;
 				
